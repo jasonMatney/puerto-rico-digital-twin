@@ -1051,3 +1051,13 @@ h3 {
   cursor: pointer;
   color: #b7f578;
 }
+.packet-downloads {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px;
+  margin: 8px 0;
+}
+.packet-downloads a {
+  font-size: 14px;
+}

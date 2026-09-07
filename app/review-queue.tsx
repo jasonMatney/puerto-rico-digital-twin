@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import type { Facility } from './facilities';
 import type { SavedVerification } from '@/lib/verification';
 import { queueState } from '@/lib/review-queue';
+import { packetRows, packetCsv } from '@/lib/validation-packet';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -76,6 +77,18 @@ export function ReviewQueue({
       });
     return () => c.abort();
   }, [open, reload, es]);
+  function downloadResponse() {
+    const blob = new Blob(
+      [packetCsv(packetRows(facilities, reviews, new Date().toISOString()))],
+      { type: 'text/csv;charset=utf-8;' },
+    );
+    const url = URL.createObjectURL(blob),
+      a = document.createElement('a');
+    a.href = url;
+    a.download = 'toa-baja-respuesta-municipal.csv';
+    a.click();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+  }
   const rows = facilities
     .filter((f) => f.properties.kind === 'shelter')
     .map((f) => ({ f, q: queueState(f.properties.id, reviews, published) }))
@@ -153,6 +166,27 @@ export function ReviewQueue({
               ? 'Seguimiento de evidencia para los 12 refugios. Abrir un registro no aprueba ni publica cambios.'
               : 'Evidence follow-up for all 12 shelters. Opening a record does not approve or publish changes.'}
           </DialogDescription>
+          <div className="packet-downloads">
+            <a href="/validation/toa-baja-validacion-municipal.pdf" download>
+              {es
+                ? 'Descargar guía PDF (7 sep. 2026)'
+                : 'Download PDF briefing (Sep 7, 2026)'}
+            </a>
+            <Button
+              variant="outline"
+              disabled={loading || !!error || facilities.length === 0}
+              onClick={downloadResponse}
+            >
+              {es
+                ? 'Descargar hoja de respuesta CSV'
+                : 'Download CSV response sheet'}
+            </Button>
+          </div>
+          <p className="small">
+            {es
+              ? 'PDF: inventario original fechado. CSV: registros y revisiones cargados en esta cola, con respuestas vacías. No se envía a terceros ni se importa automáticamente.'
+              : 'PDF: dated original inventory. CSV: records and reviews loaded in this queue, with blank response fields. Nothing is sent to third parties or imported automatically.'}
+          </p>
           {loading ? (
             <p role="status">
               {es ? 'Cargando revisiones…' : 'Loading reviews…'}
