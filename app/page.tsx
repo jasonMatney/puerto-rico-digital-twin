@@ -243,19 +243,6 @@ export default function Home() {
   const [facilitiesVisible, setFacilitiesVisible] = useState(true);
   const c = copy[lang];
   useEffect(() => {
-    const controller = new AbortController();
-    fetch('/data/access.geojson', { signal: controller.signal })
-      .then((r) => {
-        if (!r.ok) throw new Error('Access data unavailable');
-        return r.json() as Promise<FeatureCollection>;
-      })
-      .then(setAccessData)
-      .catch(() => {
-        if (!controller.signal.aborted) setAccessError(true);
-      });
-    return () => controller.abort();
-  }, []);
-  useEffect(() => {
     document.documentElement.lang = lang;
   }, [lang]);
   useEffect(() => {
@@ -302,16 +289,25 @@ export default function Home() {
                 return r.json() as Promise<Summary>;
               },
             ),
-            fetch('/data/facilities.geojson', {
+            fetch('/api/inventory', {
               signal: controller.signal,
             }).then((r) => {
-              if (!r.ok) throw new Error('Facility data unavailable');
-              return r.json() as Promise<
-                FeatureCollection<
-                  import('geojson').Point,
-                  Facility['properties']
-                >
-              >;
+              if (!r.ok) throw new Error('Published inventory unavailable');
+              return (
+                r.json() as Promise<{
+                  facilities: FeatureCollection<
+                    import('geojson').Point,
+                    Facility['properties']
+                  >;
+                  access: FeatureCollection;
+                }>
+              ).then((data) => {
+                if (!disposed) {
+                  setAccessData(data.access);
+                  setAccessError(false);
+                }
+                return data.facilities;
+              });
             }),
           ]);
         if (disposed || !host.current) return;

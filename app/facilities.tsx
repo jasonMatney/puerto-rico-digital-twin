@@ -19,6 +19,9 @@ export type Facility = Feature<
     note: string;
     designationYear: number | null;
     operatingStatus: string;
+    capacity?: number | null;
+    statusAsOf?: string;
+    reviewedBy?: string;
     reviewedAt: string;
     exposureHigh: boolean;
     exposureModerate: boolean;
@@ -64,8 +67,8 @@ export function FacilityList({
       <h3>{es ? 'Infraestructura esencial' : 'Essential facilities'}</h3>
       <p className="small">
         {es
-          ? '31 ubicaciones documentadas · 12 refugios designados en 2026. Estado operativo sin confirmar.'
-          : '31 documented locations · 12 designated 2026 shelters. Operating status unconfirmed.'}
+          ? '31 ubicaciones documentadas · 12 refugios designados en 2026. Estado operativo según fuente o sin confirmar.'
+          : '31 documented locations · 12 designated 2026 shelters. Operating status is source-reported or unconfirmed.'}
       </p>
       <p className="small">
         {es
@@ -123,7 +126,9 @@ export function FacilityList({
           : 'Orange rings mark points in selected flood zones. Exposure describes the point, not the whole building or access.'}
       </p>
       <a className="small" href="/data/facilities.geojson" download>
-        {es ? 'Descargar inventario y fuentes' : 'Download inventory & sources'}{' '}
+        {es
+          ? 'Descargar inventario original'
+          : 'Download original source inventory'}{' '}
         ↗
       </a>
     </div>
@@ -143,8 +148,13 @@ export function FacilityDetails({
       <h3>{p.name}</h3>
       <p className="facility-status">
         {es
-          ? 'Estado operativo: sin confirmar'
-          : 'Operating status: unconfirmed'}
+          ? `Estado: ${p.operatingStatus}${p.statusAsOf ? ' · ' + p.statusAsOf : ''}`
+          : `Source-reported status: ${p.operatingStatus}${p.statusAsOf ? ' · ' + p.statusAsOf : ''}`}
+      </p>
+      <p className="small">
+        {p.reviewedBy && `${p.reviewedBy} · `}
+        {p.capacity !== undefined &&
+          `${lang === 'es' ? 'Capacidad' : 'Capacity'}: ${p.capacity ?? 'Unknown'}`}
       </p>
       <dl>
         <dt>{es ? 'Zona FEMA en el punto' : 'FEMA zone at point'}</dt>

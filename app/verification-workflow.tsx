@@ -1,5 +1,6 @@
 'use client';
 import { useEffect, useState } from 'react';
+import { PublishReview } from './publish-review';
 import type { Facility } from './facilities';
 import type { Verification, SavedVerification } from '@/lib/verification';
 import { Button } from '@/components/ui/button';
@@ -194,7 +195,7 @@ export function VerificationWorkflow({
           {selected && (
             <div className="verification-baseline">
               <strong>
-                {es ? 'Inventario publicado' : 'Published inventory'}
+                {es ? 'Registro actual del mapa' : 'Current map record'}
               </strong>
               <p>
                 {selected.properties.name} ·{' '}
@@ -213,6 +214,29 @@ export function VerificationWorkflow({
               ))}
             </div>
           )}
+          <Button
+            variant="outline"
+            disabled={saving}
+            onClick={async () => {
+              setSaving(true);
+              setError('');
+              try {
+                const r = await fetch('/api/verifications/research', {
+                  method: 'POST',
+                });
+                if (!r.ok) throw new Error('Could not save desk reviews');
+                setReload((n) => n + 1);
+              } catch (e) {
+                setError(e instanceof Error ? e.message : 'Save failed');
+              } finally {
+                setSaving(false);
+              }
+            }}
+          >
+            {es
+              ? 'Guardar las dos revisiones documentales del 7 sep.'
+              : 'Save the two September 7 desk reviews'}
+          </Button>
           <form onSubmit={save}>
             <fieldset disabled={saving || loading || !!loadError || !selected}>
               <div className="verification-grid">
@@ -426,6 +450,7 @@ export function VerificationWorkflow({
                       {es ? 'Guardado' : 'Saved'}:{' '}
                       {new Date(r.createdAt).toLocaleString(lang)}
                     </small>
+                    <PublishReview reviewId={r.id} lang={lang} />
                   </details>
                 ))
             )}

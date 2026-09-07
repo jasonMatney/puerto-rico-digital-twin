@@ -1003,3 +1003,30 @@ h3 {
     grid-template-columns: 1fr;
   }
 }
+.publication-preview {
+  margin: 16px 0;
+  border-top: 1px solid #ffffff30;
+  padding-top: 14px;
+}
+.publication-preview h4 {
+  margin: 12px 0;
+}
+.publication-preview td,
+.publication-preview th {
+  white-space: normal;
+  vertical-align: top;
+  padding: 10px;
+  min-width: 110px;
+  font-size: 13px;
+}
+.publication-preview pre {
+  max-height: 220px;
+  overflow: auto;
+  font-size: 12px;
+  white-space: pre-wrap;
+}
+.verification-dialog .publication-approval {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}

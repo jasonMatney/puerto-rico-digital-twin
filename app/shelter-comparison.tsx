@@ -55,8 +55,8 @@ export function ShelterComparison({
           </DialogDescription>
           <p className="comparison-notice">
             {es
-              ? 'Estado operativo de todos los refugios: sin confirmar. Esta comparación no clasifica seguridad ni disponibilidad.'
-              : 'Operating status of all shelters: unconfirmed. This comparison does not rank safety or availability.'}
+              ? 'Estado según fuente o sin confirmar; consulte la fecha. Esta comparación no clasifica seguridad ni disponibilidad.'
+              : 'Status is source-reported or unconfirmed; check the observation date. This comparison does not rank safety or availability.'}
           </p>
           {!facilities.length ? (
             <p role="status">
@@ -129,8 +129,9 @@ export function ShelterComparison({
                         </Button>
                         <span className="comparison-status">
                           {es
-                            ? 'Operación sin confirmar'
-                            : 'Operation unconfirmed'}
+                            ? `Estado: ${p.operatingStatus}`
+                            : `Status: ${p.operatingStatus}`}
+                          {p.statusAsOf && ` · ${p.statusAsOf}`}
                         </span>
                       </TableCell>
                       <TableCell>
