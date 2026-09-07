@@ -40,6 +40,8 @@ import {
   DialogDescription,
 } from '@/components/ui/dialog';
 import 'maplibre-gl/dist/maplibre-gl.css';
+import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
+import { FacilityList, FacilityDetails, type Facility } from './facilities';
 
 type View = 'none' | 'high' | 'extended';
 type Summary = {
@@ -49,7 +51,7 @@ type Summary = {
   method: string;
 };
 type Selection = {
-  kind: 'building' | 'road' | 'flood';
+  kind: 'building' | 'road' | 'flood' | 'facility';
   properties: Record<string, unknown>;
 };
 const home = {
@@ -231,6 +233,9 @@ export default function Home() {
     [controls, setControls] = useState(true),
     [summary, setSummary] = useState<Summary | null>(null),
     [selection, setSelection] = useState<Selection | null>(null);
+  const [facilities, setFacilities] = useState<Facility[]>([]);
+  const [category, setCategory] = useState('all');
+  const [facilitiesVisible, setFacilitiesVisible] = useState(true);
   const c = copy[lang];
   useEffect(() => {
     document.documentElement.lang = lang;
@@ -240,47 +245,60 @@ export default function Home() {
     const controller = new AbortController();
     (async () => {
       try {
-        const [ml, style, boundary, flood, bld, rd, stats] = await Promise.all([
-          import('maplibre-gl'),
-          fetch('/data/basemap.json', { signal: controller.signal }).then(
-            (r) => {
-              if (!r.ok) throw new Error('Data unavailable');
-              return r.json() as Promise<StyleSpecification>;
-            },
-          ),
-          fetch('/data/boundary.geojson', { signal: controller.signal }).then(
-            (r) => {
-              if (!r.ok) throw new Error('Data unavailable');
-              return r.json() as Promise<FeatureCollection>;
-            },
-          ),
-          fetch('/data/flood.geojson', { signal: controller.signal }).then(
-            (r) => {
-              if (!r.ok) throw new Error('Data unavailable');
-              return r.json() as Promise<FeatureCollection>;
-            },
-          ),
-          fetch('/data/buildings.geojson', { signal: controller.signal }).then(
-            (r) => {
+        const [ml, style, boundary, flood, bld, rd, stats, facilityData] =
+          await Promise.all([
+            import('maplibre-gl'),
+            fetch('/data/basemap.json', { signal: controller.signal }).then(
+              (r) => {
+                if (!r.ok) throw new Error('Data unavailable');
+                return r.json() as Promise<StyleSpecification>;
+              },
+            ),
+            fetch('/data/boundary.geojson', { signal: controller.signal }).then(
+              (r) => {
+                if (!r.ok) throw new Error('Data unavailable');
+                return r.json() as Promise<FeatureCollection>;
+              },
+            ),
+            fetch('/data/flood.geojson', { signal: controller.signal }).then(
+              (r) => {
+                if (!r.ok) throw new Error('Data unavailable');
+                return r.json() as Promise<FeatureCollection>;
+              },
+            ),
+            fetch('/data/buildings.geojson', {
+              signal: controller.signal,
+            }).then((r) => {
               if (!r.ok) throw new Error('Data unavailable');
               return r.json() as Promise<FeatureCollection<Polygon>>;
-            },
-          ),
-          fetch('/data/roads.geojson', { signal: controller.signal }).then(
-            (r) => {
-              if (!r.ok) throw new Error('Data unavailable');
-              return r.json() as Promise<FeatureCollection>;
-            },
-          ),
-          fetch('/data/summary.json', { signal: controller.signal }).then(
-            (r) => {
-              if (!r.ok) throw new Error('Data unavailable');
-              return r.json() as Promise<Summary>;
-            },
-          ),
-        ]);
+            }),
+            fetch('/data/roads.geojson', { signal: controller.signal }).then(
+              (r) => {
+                if (!r.ok) throw new Error('Data unavailable');
+                return r.json() as Promise<FeatureCollection>;
+              },
+            ),
+            fetch('/data/summary.json', { signal: controller.signal }).then(
+              (r) => {
+                if (!r.ok) throw new Error('Data unavailable');
+                return r.json() as Promise<Summary>;
+              },
+            ),
+            fetch('/data/facilities.geojson', {
+              signal: controller.signal,
+            }).then((r) => {
+              if (!r.ok) throw new Error('Facility data unavailable');
+              return r.json() as Promise<
+                FeatureCollection<
+                  import('geojson').Point,
+                  Facility['properties']
+                >
+              >;
+            }),
+          ]);
         if (disposed || !host.current) return;
         setSummary(stats);
+        setFacilities(facilityData.features);
         footprints.current = bld;
         ml.setWorkerUrl('/vendor/maplibre-gl-worker.mjs');
         const m = new ml.Map({
@@ -420,8 +438,51 @@ export default function Home() {
               source: 'selected',
               paint: { 'line-color': '#f4fb55', 'line-width': 4 },
             });
+            m.addSource('facilities', { type: 'geojson', data: facilityData });
+            m.addLayer({
+              id: 'facility-points',
+              type: 'circle',
+              source: 'facilities',
+              paint: {
+                'circle-radius': 7,
+                'circle-color': [
+                  'match',
+                  ['get', 'kind'],
+                  'shelter',
+                  '#b7f578',
+                  'siren',
+                  '#ce9aff',
+                  'health',
+                  '#ff9fbd',
+                  'fire',
+                  '#ffad66',
+                  '#9bdcff',
+                ],
+                'circle-stroke-color': [
+                  'case',
+                  ['get', 'exposureHigh'],
+                  '#ff6f47',
+                  '#0c2533',
+                ],
+                'circle-stroke-width': 2,
+              },
+            });
+            m.addLayer({
+              id: 'selected-point',
+              type: 'circle',
+              source: 'selected',
+              filter: ['==', ['geometry-type'], 'Point'],
+              paint: {
+                'circle-radius': 12,
+                'circle-color': '#ffffff',
+                'circle-opacity': 0.15,
+                'circle-stroke-color': '#ffffff',
+                'circle-stroke-width': 3,
+              },
+            });
             m.on('click', (e) => {
               const layers = [
+                'facility-points',
                 'pilot-buildings',
                 'pilot-roads',
                 'flood-fill',
@@ -433,14 +494,18 @@ export default function Home() {
                 setSelection(null);
                 return;
               }
-              const f = hits[0];
+              const f =
+                hits.find((hit) => hit.layer.id === 'facility-points') ||
+                hits[0];
               setSelection({
                 kind:
-                  f.layer.id === 'pilot-buildings'
-                    ? 'building'
-                    : f.layer.id === 'pilot-roads'
-                      ? 'road'
-                      : 'flood',
+                  f.layer.id === 'facility-points'
+                    ? 'facility'
+                    : f.layer.id === 'pilot-buildings'
+                      ? 'building'
+                      : f.layer.id === 'pilot-roads'
+                        ? 'road'
+                        : 'flood',
                 properties: f.properties,
               });
               (m.getSource('selected') as GeoJSONSource).setData({
@@ -451,7 +516,12 @@ export default function Home() {
             });
             m.on('mousemove', (e) => {
               m.getCanvas().style.cursor = m.queryRenderedFeatures(e.point, {
-                layers: ['pilot-buildings', 'pilot-roads', 'flood-fill'],
+                layers: [
+                  'facility-points',
+                  'pilot-buildings',
+                  'pilot-roads',
+                  'flood-fill',
+                ],
               }).length
                 ? 'pointer'
                 : '';
@@ -532,6 +602,49 @@ export default function Home() {
       is3d ? ['coalesce', ['get', 'render_height'], 5] : 0,
     );
   }, [ready, buildings, roads, terrain, is3d]);
+  useEffect(() => {
+    if (!ready || !map.current) return;
+    map.current.setFilter(
+      'facility-points',
+      category === 'all' ? null : ['==', ['get', 'kind'], category],
+    );
+    map.current.setLayoutProperty(
+      'facility-points',
+      'visibility',
+      facilitiesVisible ? 'visible' : 'none',
+    );
+    map.current.setPaintProperty(
+      'facility-points',
+      'circle-stroke-color',
+      view === 'none'
+        ? '#0c2533'
+        : [
+            'case',
+            view === 'extended'
+              ? ['any', ['get', 'exposureHigh'], ['get', 'exposureModerate']]
+              : ['get', 'exposureHigh'],
+            '#ff6f47',
+            '#0c2533',
+          ],
+    );
+  }, [ready, category, facilitiesVisible, view]);
+  const selectFacility = (f: Facility) => {
+    setFacilitiesVisible(true);
+    setSelection({ kind: 'facility', properties: f.properties });
+    (map.current?.getSource('selected') as GeoJSONSource | undefined)?.setData(
+      f,
+    );
+    map.current?.flyTo({
+      center: f.geometry.coordinates as [number, number],
+      zoom: 15.5,
+      padding: {
+        left: window.innerWidth > 1100 ? 340 : 0,
+        right: window.innerWidth > 700 ? 310 : 0,
+        top: 0,
+        bottom: 100,
+      },
+    });
+  };
   const inspect = useCallback(() => {
     const list = footprints.current?.features;
     const f = list?.find(
@@ -750,6 +863,16 @@ export default function Home() {
           <div className="layer-list">
             {[
               {
+                id: 'facilities',
+                icon: Building2,
+                label:
+                  lang === 'en'
+                    ? 'Essential facilities'
+                    : 'Infraestructura esencial',
+                checked: facilitiesVisible,
+                set: setFacilitiesVisible,
+              },
+              {
                 id: 'buildings',
                 icon: Building2,
                 label: c.buildings,
@@ -808,50 +931,81 @@ export default function Home() {
         </section>
       )}
       <section className="summary-panel" aria-label={c.exposure}>
-        <div className="summary-heading">
-          <span className="eyebrow">{c.snapshot}</span>
-          <span className="live-dot" />{' '}
-          <span className="small">30 AUG 2026</span>
-        </div>
-        <h3>{c.exposure}</h3>
-        {view === 'none' ? (
-          <p>{c.noFlood}</p>
-        ) : (
-          <>
-            <div className="big-stat" aria-live="polite">
-              {count !== null ? number(count) : '—'}
-              <span>
-                <Building2 size={23} />
-              </span>
-            </div>
-            <p className="stat-label">{c.overlap}</p>
-            <div className="stat-rule" />
-            <div className="summary-row">
-              <strong>{summary ? number(summary.buildings.total) : '—'}</strong>
-              <span>{c.total}</span>
-            </div>
-            <div className="summary-row">
-              <strong>{roadCount !== null ? number(roadCount) : '—'}</strong>
-              <span>{c.segments}</span>
-            </div>
-          </>
-        )}
-        <p className="small coverage-note">{c.coverage}</p>
-        <div className="summary-actions">
-          <Button variant="outline" disabled={!ready} onClick={inspect}>
-            <Eye size={15} />
-            {c.inspect}
-          </Button>
-          <Button
-            size="icon"
-            variant="outline"
-            disabled={!summary}
-            onClick={download}
-            aria-label={c.download}
+        <Tabs defaultValue="facilities">
+          <TabsList
+            aria-label={
+              lang === 'en' ? 'Inventory view' : 'Vista de inventario'
+            }
           >
-            <Download size={16} />
-          </Button>
-        </div>
+            <TabsTrigger value="facilities">
+              {lang === 'en' ? 'Facilities' : 'Instalaciones'}
+            </TabsTrigger>
+            <TabsTrigger value="exposure">
+              {lang === 'en' ? 'Buildings' : 'Edificios'}
+            </TabsTrigger>
+          </TabsList>
+          <TabsContent value="facilities">
+            <FacilityList
+              items={facilities}
+              lang={lang}
+              category={category}
+              onCategory={setCategory}
+              onSelect={selectFacility}
+              ready={ready}
+              view={view}
+            />
+          </TabsContent>
+          <TabsContent value="exposure">
+            <div className="summary-heading">
+              <span className="eyebrow">{c.snapshot}</span>
+              <span className="live-dot" />{' '}
+              <span className="small">30 AUG 2026</span>
+            </div>
+            <h3>{c.exposure}</h3>
+            {view === 'none' ? (
+              <p>{c.noFlood}</p>
+            ) : (
+              <>
+                <div className="big-stat" aria-live="polite">
+                  {count !== null ? number(count) : '—'}
+                  <span>
+                    <Building2 size={23} />
+                  </span>
+                </div>
+                <p className="stat-label">{c.overlap}</p>
+                <div className="stat-rule" />
+                <div className="summary-row">
+                  <strong>
+                    {summary ? number(summary.buildings.total) : '—'}
+                  </strong>
+                  <span>{c.total}</span>
+                </div>
+                <div className="summary-row">
+                  <strong>
+                    {roadCount !== null ? number(roadCount) : '—'}
+                  </strong>
+                  <span>{c.segments}</span>
+                </div>
+              </>
+            )}
+            <p className="small coverage-note">{c.coverage}</p>
+            <div className="summary-actions">
+              <Button variant="outline" disabled={!ready} onClick={inspect}>
+                <Eye size={15} />
+                {c.inspect}
+              </Button>
+              <Button
+                size="icon"
+                variant="outline"
+                disabled={!summary}
+                onClick={download}
+                aria-label={c.download}
+              >
+                <Download size={16} />
+              </Button>
+            </div>
+          </TabsContent>
+        </Tabs>
       </section>
       {selection && (
         <section className="detail-panel" aria-label={c.detail}>
@@ -868,53 +1022,66 @@ export default function Home() {
             <X size={18} />
           </button>
           <span className="eyebrow">{c.detail}</span>
-          <h3>
-            {selection.kind === 'building'
-              ? c.footprint
-              : selection.kind === 'road'
-                ? c.road
-                : c.flood}
-          </h3>
-          <dl>
-            <dt>{selection.kind === 'flood' ? c.floodZone : c.id}</dt>
-            <dd>
-              {String(
-                selection.properties[
-                  selection.kind === 'flood' ? 'FLD_ZONE' : 'id'
-                ] || c.nodata,
-              )}
-            </dd>
-            {selection.kind === 'building' && (
-              <>
-                <dt>{c.height}</dt>
+          {selection.kind === 'facility' ? (
+            <FacilityDetails
+              lang={lang}
+              facility={facilities.find(
+                (f) => f.properties.id === selection.properties.id,
+              )!}
+            />
+          ) : (
+            <>
+              <h3>
+                {selection.kind === 'building'
+                  ? c.footprint
+                  : selection.kind === 'road'
+                    ? c.road
+                    : c.flood}
+              </h3>
+              <dl>
+                <dt>{selection.kind === 'flood' ? c.floodZone : c.id}</dt>
                 <dd>
-                  {String(selection.properties.render_height ?? 5)} m{' '}
-                  <small>{c.estimated}</small>
+                  {String(
+                    selection.properties[
+                      selection.kind === 'flood' ? 'FLD_ZONE' : 'id'
+                    ] || c.nodata,
+                  )}
                 </dd>
-              </>
-            )}
-            {selection.kind !== 'flood' && (
-              <>
-                <dt>{c.zone}</dt>
-                <dd>{String(selection.properties.zoneLabels || c.nodata)}</dd>
-              </>
-            )}
-            {selection.kind === 'flood' && (
-              <>
-                <dt>{c.bfe}</dt>
-                <dd>
-                  {Number(selection.properties.STATIC_BFE) > -1000
-                    ? `${selection.properties.STATIC_BFE} ${selection.properties.LEN_UNIT || ''} (${selection.properties.V_DATUM || ''})`
-                    : c.nodata}
-                </dd>
-                <dt>DFIRM / SOURCE_CIT</dt>
-                <dd>
-                  {String(selection.properties.DFIRM_ID)} /{' '}
-                  {String(selection.properties.SOURCE_CIT)}
-                </dd>
-              </>
-            )}
-          </dl>
+                {selection.kind === 'building' && (
+                  <>
+                    <dt>{c.height}</dt>
+                    <dd>
+                      {String(selection.properties.render_height ?? 5)} m{' '}
+                      <small>{c.estimated}</small>
+                    </dd>
+                  </>
+                )}
+                {selection.kind !== 'flood' && (
+                  <>
+                    <dt>{c.zone}</dt>
+                    <dd>
+                      {String(selection.properties.zoneLabels || c.nodata)}
+                    </dd>
+                  </>
+                )}
+                {selection.kind === 'flood' && (
+                  <>
+                    <dt>{c.bfe}</dt>
+                    <dd>
+                      {Number(selection.properties.STATIC_BFE) > -1000
+                        ? `${selection.properties.STATIC_BFE} ${selection.properties.LEN_UNIT || ''} (${selection.properties.V_DATUM || ''})`
+                        : c.nodata}
+                    </dd>
+                    <dt>DFIRM / SOURCE_CIT</dt>
+                    <dd>
+                      {String(selection.properties.DFIRM_ID)} /{' '}
+                      {String(selection.properties.SOURCE_CIT)}
+                    </dd>
+                  </>
+                )}
+              </dl>
+            </>
+          )}
         </section>
       )}
       <div className="map-caption">
@@ -1018,7 +1185,11 @@ export default function Home() {
             <h4>{c.method}</h4>
             <p>{c.methodText}</p>
             <h4>{c.next}</h4>
-            <p>{c.nextText}</p>
+            <p>
+              {lang === 'en'
+                ? 'The facility inventory combines PRDOH’s 2026 shelter designation, municipal 2025 shelter and siren GIS, and historical facilities from the 2024 mitigation plan (2019 inventory). Each point links to its source. Point-in-polygon exposure does not establish damage, safe access or operating status. Water assets, current capacity, live operations and field confirmation remain gaps.'
+                : 'El inventario combina refugios designados por Vivienda en 2026, SIG municipal de 2025 y ubicaciones históricas del plan de mitigación de 2024 (inventario de 2019). Cada punto enlaza a su fuente. La exposición puntual no establece daños, acceso seguro ni operación. Faltan activos de agua, capacidad actual y confirmación de campo.'}
+            </p>
             <a
               href="https://recuperacion.pr.gov/en/risk-and-asset-data-collection-program/"
               target="_blank"

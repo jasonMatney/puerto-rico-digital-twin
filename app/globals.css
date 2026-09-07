@@ -772,3 +772,86 @@ h3 {
     transition: none !important;
   }
 }
+
+.facility-inventory {
+  display: grid;
+  gap: 12px;
+}
+.facility-inventory h3 {
+  margin: 8px 0 0;
+}
+.facility-list {
+  max-height: min(34vh, 330px);
+  overflow-y: auto;
+  display: grid;
+  gap: 4px;
+}
+.facility-list button {
+  height: auto;
+  min-height: 52px;
+  white-space: normal;
+  justify-content: flex-start;
+  text-align: left;
+  padding: 9px 5px;
+  color: #edf4f5;
+  font-size: 12px;
+}
+.facility-list small {
+  display: block;
+  font-size: 10px;
+  color: #a8bbc5;
+  margin-top: 3px;
+}
+.facility-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #9bdcff;
+  flex-shrink: 0;
+}
+.facility-dot.shelter {
+  background: #b7f578;
+}
+.facility-dot.siren {
+  background: #ce9aff;
+}
+.facility-dot.health {
+  background: #ff9fbd;
+}
+.facility-dot.fire {
+  background: #ffad66;
+}
+.facility-status {
+  color: #ffd19a;
+  font-size: 12px;
+  margin: 8px 0;
+}
+.facility-sources {
+  display: grid;
+  gap: 6px;
+  font-size: 12px;
+  margin-top: 12px;
+}
+.facility-inventory a,
+.facility-sources a {
+  color: #b7f578;
+  text-decoration: underline;
+}
+.detail-panel {
+  max-height: 48vh;
+  overflow-y: auto;
+}
+.summary-panel [data-slot='tabs-list'] {
+  width: 100%;
+}
+@media (max-width: 700px) {
+  .facility-list {
+    max-height: 250px;
+  }
+}
+@media (min-width: 701px) {
+  .summary-panel {
+    max-height: calc(100dvh - 210px);
+    overflow-y: auto;
+  }
+}

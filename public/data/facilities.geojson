@@ -1,0 +1,952 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -66.1852488179999,
+          18.429839235
+        ]
+      },
+      "properties": {
+        "id": "shelter-1",
+        "name": "Centro Comunal Jesusa Matías",
+        "kind": "shelter",
+        "sources": [
+          {
+            "label": "PRDOH 2026 · PDF p. 17",
+            "url": "https://docs.pr.gov/files/Vivienda/vivienda.pr.gov/Home/DVAVP_Refugios_Temporada_de_Huracanes_2026.pdf#page=17"
+          },
+          {
+            "label": "Municipal GIS 2025 · record 14",
+            "url": "https://services8.arcgis.com/n6by4cEju3ytQLNI/ArcGIS/rest/services/Temporada_de_Huracanes_2025_WFL1/FeatureServer/1/14"
+          }
+        ],
+        "vintage": "2025 GIS / 2026 designation",
+        "note": "Location cross-checked against the map link in the 2026 designation. No field verification.",
+        "designationYear": 2026,
+        "operatingStatus": "unconfirmed",
+        "reviewedAt": "2026-09-07",
+        "exposureHigh": false,
+        "exposureModerate": false,
+        "zoneLabels": "X · AREA OF MINIMAL FLOOD HAZARD"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -66.21049125,
+          18.39916537
+        ]
+      },
+      "properties": {
+        "id": "shelter-2",
+        "name": "Centro Comunal Barrio Pájaros",
+        "kind": "shelter",
+        "sources": [
+          {
+            "label": "PRDOH 2026 · PDF p. 17",
+            "url": "https://docs.pr.gov/files/Vivienda/vivienda.pr.gov/Home/DVAVP_Refugios_Temporada_de_Huracanes_2026.pdf#page=17"
+          },
+          {
+            "label": "Municipal GIS 2025 · record 13",
+            "url": "https://services8.arcgis.com/n6by4cEju3ytQLNI/ArcGIS/rest/services/Temporada_de_Huracanes_2025_WFL1/FeatureServer/1/13"
+          }
+        ],
+        "vintage": "2025 GIS / 2026 designation",
+        "note": "Location cross-checked against the map link in the 2026 designation. No field verification.",
+        "designationYear": 2026,
+        "operatingStatus": "unconfirmed",
+        "reviewedAt": "2026-09-07",
+        "exposureHigh": false,
+        "exposureModerate": false,
+        "zoneLabels": "X · AREA OF MINIMAL FLOOD HAZARD"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -66.22890978,
+          18.44480062
+        ]
+      },
+      "properties": {
+        "id": "shelter-3",
+        "name": "Centro Comunal José \"Pipo\" Negrón",
+        "kind": "shelter",
+        "sources": [
+          {
+            "label": "PRDOH 2026 · PDF p. 18",
+            "url": "https://docs.pr.gov/files/Vivienda/vivienda.pr.gov/Home/DVAVP_Refugios_Temporada_de_Huracanes_2026.pdf#page=18"
+          },
+          {
+            "label": "Municipal GIS 2025 · record 12",
+            "url": "https://services8.arcgis.com/n6by4cEju3ytQLNI/ArcGIS/rest/services/Temporada_de_Huracanes_2025_WFL1/FeatureServer/1/12"
+          }
+        ],
+        "vintage": "2025 GIS / 2026 designation",
+        "note": "PRDOH names José; municipal GIS and the PRDOH-linked map name Rafael “Pipo” Negrón. Identity needs municipal confirmation.",
+        "designationYear": 2026,
+        "operatingStatus": "unconfirmed",
+        "reviewedAt": "2026-09-07",
+        "exposureHigh": true,
+        "exposureModerate": false,
+        "zoneLabels": "AE"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -66.233975744,
+          18.423306709
+        ]
+      },
+      "properties": {
+        "id": "shelter-4",
+        "name": "Esc. Altinencia Valle",
+        "kind": "shelter",
+        "sources": [
+          {
+            "label": "PRDOH 2026 · PDF p. 18",
+            "url": "https://docs.pr.gov/files/Vivienda/vivienda.pr.gov/Home/DVAVP_Refugios_Temporada_de_Huracanes_2026.pdf#page=18"
+          },
+          {
+            "label": "Municipal GIS 2025 · record 8",
+            "url": "https://services8.arcgis.com/n6by4cEju3ytQLNI/ArcGIS/rest/services/Temporada_de_Huracanes_2025_WFL1/FeatureServer/1/8"
+          }
+        ],
+        "vintage": "2025 GIS / 2026 designation",
+        "note": "Location cross-checked against the map link in the 2026 designation. No field verification.",
+        "designationYear": 2026,
+        "operatingStatus": "unconfirmed",
+        "reviewedAt": "2026-09-07",
+        "exposureHigh": false,
+        "exposureModerate": false,
+        "zoneLabels": "X · AREA OF MINIMAL FLOOD HAZARD"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -66.181491616,
+          18.4350929090001
+        ]
+      },
+      "properties": {
+        "id": "shelter-5",
+        "name": "Esc. Delia Dávila de Cabán",
+        "kind": "shelter",
+        "sources": [
+          {
+            "label": "PRDOH 2026 · PDF p. 18",
+            "url": "https://docs.pr.gov/files/Vivienda/vivienda.pr.gov/Home/DVAVP_Refugios_Temporada_de_Huracanes_2026.pdf#page=18"
+          },
+          {
+            "label": "Municipal GIS 2025 · record 10",
+            "url": "https://services8.arcgis.com/n6by4cEju3ytQLNI/ArcGIS/rest/services/Temporada_de_Huracanes_2025_WFL1/FeatureServer/1/10"
+          }
+        ],
+        "vintage": "2025 GIS / 2026 designation",
+        "note": "Location cross-checked against the map link in the 2026 designation. No field verification.",
+        "designationYear": 2026,
+        "operatingStatus": "unconfirmed",
+        "reviewedAt": "2026-09-07",
+        "exposureHigh": false,
+        "exposureModerate": false,
+        "zoneLabels": "X · AREA OF MINIMAL FLOOD HAZARD"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -66.1818901224,
+          18.4494672453
+        ]
+      },
+      "properties": {
+        "id": "shelter-6",
+        "name": "Esc. Dr. Pedro Albizu Campos",
+        "kind": "shelter",
+        "sources": [
+          {
+            "label": "PRDOH 2026 · PDF p. 18",
+            "url": "https://docs.pr.gov/files/Vivienda/vivienda.pr.gov/Home/DVAVP_Refugios_Temporada_de_Huracanes_2026.pdf#page=18"
+          },
+          {
+            "label": "Mitigation plan 2024 · Table 16, printed p.52",
+            "url": "https://www.toabaja.com/wp-content/uploads/2025/03/TBAJ-FinalHMP_Approved_24.04.10-OCE10539_web.pdf#page=54"
+          }
+        ],
+        "vintage": "2019 inventory / 2024 plan / 2026 designation",
+        "note": "Historical coordinate cross-checked with the PRDOH-linked map. The mitigation plan notes location discrepancies in its inventory; current field confirmation is needed.",
+        "designationYear": 2026,
+        "operatingStatus": "unconfirmed",
+        "reviewedAt": "2026-09-07",
+        "exposureHigh": false,
+        "exposureModerate": true,
+        "zoneLabels": "X · 0.2 PCT ANNUAL CHANCE FLOOD HAZARD"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -66.1693989999999,
+          18.441498
+        ]
+      },
+      "properties": {
+        "id": "shelter-7",
+        "name": "Esc. Efraín Sánchez Hidalgo",
+        "kind": "shelter",
+        "sources": [
+          {
+            "label": "PRDOH 2026 · PDF p. 18",
+            "url": "https://docs.pr.gov/files/Vivienda/vivienda.pr.gov/Home/DVAVP_Refugios_Temporada_de_Huracanes_2026.pdf#page=18"
+          },
+          {
+            "label": "Municipal GIS 2025 · record 6",
+            "url": "https://services8.arcgis.com/n6by4cEju3ytQLNI/ArcGIS/rest/services/Temporada_de_Huracanes_2025_WFL1/FeatureServer/1/6"
+          }
+        ],
+        "vintage": "2025 GIS / 2026 designation",
+        "note": "Location cross-checked against the map link in the 2026 designation. No field verification.",
+        "designationYear": 2026,
+        "operatingStatus": "unconfirmed",
+        "reviewedAt": "2026-09-07",
+        "exposureHigh": false,
+        "exposureModerate": true,
+        "zoneLabels": "X · 0.2 PCT ANNUAL CHANCE FLOOD HAZARD"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -66.210548,
+          18.416682
+        ]
+      },
+      "properties": {
+        "id": "shelter-8",
+        "name": "Esc. Ernestina Bracero",
+        "kind": "shelter",
+        "sources": [
+          {
+            "label": "PRDOH 2026 · PDF p. 18",
+            "url": "https://docs.pr.gov/files/Vivienda/vivienda.pr.gov/Home/DVAVP_Refugios_Temporada_de_Huracanes_2026.pdf#page=18"
+          },
+          {
+            "label": "Municipal GIS 2025 · record 3",
+            "url": "https://services8.arcgis.com/n6by4cEju3ytQLNI/ArcGIS/rest/services/Temporada_de_Huracanes_2025_WFL1/FeatureServer/1/3"
+          }
+        ],
+        "vintage": "2025 GIS / 2026 designation",
+        "note": "Location cross-checked against the map link in the 2026 designation. No field verification.",
+        "designationYear": 2026,
+        "operatingStatus": "unconfirmed",
+        "reviewedAt": "2026-09-07",
+        "exposureHigh": false,
+        "exposureModerate": false,
+        "zoneLabels": "X · AREA OF MINIMAL FLOOD HAZARD"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -66.229181792,
+          18.444209444
+        ]
+      },
+      "properties": {
+        "id": "shelter-9",
+        "name": "Esc. José Robles Otero",
+        "kind": "shelter",
+        "sources": [
+          {
+            "label": "PRDOH 2026 · PDF p. 18",
+            "url": "https://docs.pr.gov/files/Vivienda/vivienda.pr.gov/Home/DVAVP_Refugios_Temporada_de_Huracanes_2026.pdf#page=18"
+          },
+          {
+            "label": "Municipal GIS 2025 · record 9",
+            "url": "https://services8.arcgis.com/n6by4cEju3ytQLNI/ArcGIS/rest/services/Temporada_de_Huracanes_2025_WFL1/FeatureServer/1/9"
+          }
+        ],
+        "vintage": "2025 GIS / 2026 designation",
+        "note": "Location cross-checked against the map link in the 2026 designation. No field verification.",
+        "designationYear": 2026,
+        "operatingStatus": "unconfirmed",
+        "reviewedAt": "2026-09-07",
+        "exposureHigh": false,
+        "exposureModerate": false,
+        "zoneLabels": "X · AREA OF MINIMAL FLOOD HAZARD"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -66.200168,
+          18.400159
+        ]
+      },
+      "properties": {
+        "id": "shelter-10",
+        "name": "Esc. María J. Corredor Rivera",
+        "kind": "shelter",
+        "sources": [
+          {
+            "label": "PRDOH 2026 · PDF p. 18",
+            "url": "https://docs.pr.gov/files/Vivienda/vivienda.pr.gov/Home/DVAVP_Refugios_Temporada_de_Huracanes_2026.pdf#page=18"
+          },
+          {
+            "label": "Municipal GIS 2025 · record 7",
+            "url": "https://services8.arcgis.com/n6by4cEju3ytQLNI/ArcGIS/rest/services/Temporada_de_Huracanes_2025_WFL1/FeatureServer/1/7"
+          }
+        ],
+        "vintage": "2025 GIS / 2026 designation",
+        "note": "Location cross-checked against the map link in the 2026 designation. No field verification.",
+        "designationYear": 2026,
+        "operatingStatus": "unconfirmed",
+        "reviewedAt": "2026-09-07",
+        "exposureHigh": false,
+        "exposureModerate": false,
+        "zoneLabels": "X · AREA OF MINIMAL FLOOD HAZARD"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -66.208736,
+          18.398941
+        ]
+      },
+      "properties": {
+        "id": "shelter-11",
+        "name": "Esc. Martín García Giusti",
+        "kind": "shelter",
+        "sources": [
+          {
+            "label": "PRDOH 2026 · PDF p. 18",
+            "url": "https://docs.pr.gov/files/Vivienda/vivienda.pr.gov/Home/DVAVP_Refugios_Temporada_de_Huracanes_2026.pdf#page=18"
+          },
+          {
+            "label": "Municipal GIS 2025 · record 1",
+            "url": "https://services8.arcgis.com/n6by4cEju3ytQLNI/ArcGIS/rest/services/Temporada_de_Huracanes_2025_WFL1/FeatureServer/1/1"
+          }
+        ],
+        "vintage": "2025 GIS / 2026 designation",
+        "note": "Location cross-checked against the map link in the 2026 designation. No field verification.",
+        "designationYear": 2026,
+        "operatingStatus": "unconfirmed",
+        "reviewedAt": "2026-09-07",
+        "exposureHigh": false,
+        "exposureModerate": false,
+        "zoneLabels": "X · AREA OF MINIMAL FLOOD HAZARD"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -66.254082,
+          18.4023060000001
+        ]
+      },
+      "properties": {
+        "id": "shelter-12",
+        "name": "Esc. José Nevárez",
+        "kind": "shelter",
+        "sources": [
+          {
+            "label": "PRDOH 2026 · PDF p. 18",
+            "url": "https://docs.pr.gov/files/Vivienda/vivienda.pr.gov/Home/DVAVP_Refugios_Temporada_de_Huracanes_2026.pdf#page=18"
+          },
+          {
+            "label": "Municipal GIS 2025 · record 2",
+            "url": "https://services8.arcgis.com/n6by4cEju3ytQLNI/ArcGIS/rest/services/Temporada_de_Huracanes_2025_WFL1/FeatureServer/1/2"
+          }
+        ],
+        "vintage": "2025 GIS / 2026 designation",
+        "note": "Location cross-checked against the map link in the 2026 designation. No field verification.",
+        "designationYear": 2026,
+        "operatingStatus": "unconfirmed",
+        "reviewedAt": "2026-09-07",
+        "exposureHigh": false,
+        "exposureModerate": false,
+        "zoneLabels": "X · AREA OF MINIMAL FLOOD HAZARD"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -66.2260233151386,
+          18.4461089058905
+        ]
+      },
+      "properties": {
+        "id": "siren-1",
+        "name": "Sirena · Ingenio · Cll Azucena",
+        "kind": "siren",
+        "sources": [
+          {
+            "label": "Municipal GIS 2025 · record 1",
+            "url": "https://services8.arcgis.com/n6by4cEju3ytQLNI/ArcGIS/rest/services/Temporada_de_Huracanes_2025_WFL1/FeatureServer/2/1"
+          }
+        ],
+        "vintage": "2025 GIS",
+        "note": "Estacionamiento de cancha bajo techo. The source reports functioning in its snapshot; current operation is unconfirmed.",
+        "designationYear": null,
+        "operatingStatus": "unconfirmed",
+        "reviewedAt": "2026-09-07",
+        "exposureHigh": false,
+        "exposureModerate": false,
+        "zoneLabels": "X · AREA OF MINIMAL FLOOD HAZARD"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -66.2300303161218,
+          18.4440089050641
+        ]
+      },
+      "properties": {
+        "id": "siren-2",
+        "name": "Sirena · Ingenio · PR-867",
+        "kind": "siren",
+        "sources": [
+          {
+            "label": "Municipal GIS 2025 · record 2",
+            "url": "https://services8.arcgis.com/n6by4cEju3ytQLNI/ArcGIS/rest/services/Temporada_de_Huracanes_2025_WFL1/FeatureServer/2/2"
+          }
+        ],
+        "vintage": "2025 GIS",
+        "note": "Frente a la Escuela José Robles. The source reports functioning in its snapshot; current operation is unconfirmed.",
+        "designationYear": null,
+        "operatingStatus": "unconfirmed",
+        "reviewedAt": "2026-09-07",
+        "exposureHigh": false,
+        "exposureModerate": false,
+        "zoneLabels": "X · AREA OF MINIMAL FLOOD HAZARD"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -66.1856651029605,
+          18.4604544108272
+        ]
+      },
+      "properties": {
+        "id": "siren-3",
+        "name": "Sirena · 3ra Sección Levittown · Cll Marginal Oeste",
+        "kind": "siren",
+        "sources": [
+          {
+            "label": "Municipal GIS 2025 · record 3",
+            "url": "https://services8.arcgis.com/n6by4cEju3ytQLNI/ArcGIS/rest/services/Temporada_de_Huracanes_2025_WFL1/FeatureServer/2/3"
+          }
+        ],
+        "vintage": "2025 GIS",
+        "note": "Frente a TCJ Metals Mfg. Inc.. The source reports functioning in its snapshot; current operation is unconfirmed.",
+        "designationYear": null,
+        "operatingStatus": "unconfirmed",
+        "reviewedAt": "2026-09-07",
+        "exposureHigh": true,
+        "exposureModerate": false,
+        "zoneLabels": "AE"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -66.1788541711411,
+          18.4542010989309
+        ]
+      },
+      "properties": {
+        "id": "siren-4",
+        "name": "Sirena · 3ra Sección Levittown · Cll Marginal Central",
+        "kind": "siren",
+        "sources": [
+          {
+            "label": "Municipal GIS 2025 · record 4",
+            "url": "https://services8.arcgis.com/n6by4cEju3ytQLNI/ArcGIS/rest/services/Temporada_de_Huracanes_2025_WFL1/FeatureServer/2/4"
+          }
+        ],
+        "vintage": "2025 GIS",
+        "note": "Frente a Academia Espíritu Santo. The source reports functioning in its snapshot; current operation is unconfirmed.",
+        "designationYear": null,
+        "operatingStatus": "unconfirmed",
+        "reviewedAt": "2026-09-07",
+        "exposureHigh": false,
+        "exposureModerate": true,
+        "zoneLabels": "X · 0.2 PCT ANNUAL CHANCE FLOOD HAZARD"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -66.1441380728763,
+          18.461271440215
+        ]
+      },
+      "properties": {
+        "id": "siren-5",
+        "name": "Sirena · Palo Seco · Cll Del Carmen",
+        "kind": "siren",
+        "sources": [
+          {
+            "label": "Municipal GIS 2025 · record 5",
+            "url": "https://services8.arcgis.com/n6by4cEju3ytQLNI/ArcGIS/rest/services/Temporada_de_Huracanes_2025_WFL1/FeatureServer/2/5"
+          }
+        ],
+        "vintage": "2025 GIS",
+        "note": "Frente a la cancha bajo techo. The source reports functioning in its snapshot; current operation is unconfirmed.",
+        "designationYear": null,
+        "operatingStatus": "unconfirmed",
+        "reviewedAt": "2026-09-07",
+        "exposureHigh": true,
+        "exposureModerate": false,
+        "zoneLabels": "AE"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -66.1364587804069,
+          18.4684236123914
+        ]
+      },
+      "properties": {
+        "id": "siren-6",
+        "name": "Sirena · Isla de Cabras · PR-870",
+        "kind": "siren",
+        "sources": [
+          {
+            "label": "Municipal GIS 2025 · record 6",
+            "url": "https://services8.arcgis.com/n6by4cEju3ytQLNI/ArcGIS/rest/services/Temporada_de_Huracanes_2025_WFL1/FeatureServer/2/6"
+          }
+        ],
+        "vintage": "2025 GIS",
+        "note": "Frente a oficinas de administración. The source reports functioning in its snapshot; current operation is unconfirmed.",
+        "designationYear": null,
+        "operatingStatus": "unconfirmed",
+        "reviewedAt": "2026-09-07",
+        "exposureHigh": true,
+        "exposureModerate": false,
+        "zoneLabels": "AE"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -66.2104581893653,
+          18.3991345261435
+        ]
+      },
+      "properties": {
+        "id": "siren-7",
+        "name": "Sirena · Pájaros · PR-863",
+        "kind": "siren",
+        "sources": [
+          {
+            "label": "Municipal GIS 2025 · record 7",
+            "url": "https://services8.arcgis.com/n6by4cEju3ytQLNI/ArcGIS/rest/services/Temporada_de_Huracanes_2025_WFL1/FeatureServer/2/7"
+          }
+        ],
+        "vintage": "2025 GIS",
+        "note": "Parque de Pelota. The source reports functioning in its snapshot; current operation is unconfirmed.",
+        "designationYear": null,
+        "operatingStatus": "unconfirmed",
+        "reviewedAt": "2026-09-07",
+        "exposureHigh": false,
+        "exposureModerate": false,
+        "zoneLabels": "X · AREA OF MINIMAL FLOOD HAZARD"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -66.2386547981626,
+          18.4206966408469
+        ]
+      },
+      "properties": {
+        "id": "siren-8",
+        "name": "Sirena · Campanilla · PR-865",
+        "kind": "siren",
+        "sources": [
+          {
+            "label": "Municipal GIS 2025 · record 8",
+            "url": "https://services8.arcgis.com/n6by4cEju3ytQLNI/ArcGIS/rest/services/Temporada_de_Huracanes_2025_WFL1/FeatureServer/2/8"
+          }
+        ],
+        "vintage": "2025 GIS",
+        "note": "Parque de Pelota. The source reports functioning in its snapshot; current operation is unconfirmed.",
+        "designationYear": null,
+        "operatingStatus": "unconfirmed",
+        "reviewedAt": "2026-09-07",
+        "exposureHigh": false,
+        "exposureModerate": false,
+        "zoneLabels": "X · AREA OF MINIMAL FLOOD HAZARD"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -66.1711520164952,
+          18.4506698451957
+        ]
+      },
+      "properties": {
+        "id": "siren-9",
+        "name": "Sirena · 2da Sección Levittown · PR-165",
+        "kind": "siren",
+        "sources": [
+          {
+            "label": "Municipal GIS 2025 · record 9",
+            "url": "https://services8.arcgis.com/n6by4cEju3ytQLNI/ArcGIS/rest/services/Temporada_de_Huracanes_2025_WFL1/FeatureServer/2/9"
+          }
+        ],
+        "vintage": "2025 GIS",
+        "note": "Intersección de Ferreteria National. The source reports functioning in its snapshot; current operation is unconfirmed.",
+        "designationYear": null,
+        "operatingStatus": "unconfirmed",
+        "reviewedAt": "2026-09-07",
+        "exposureHigh": true,
+        "exposureModerate": false,
+        "zoneLabels": "VE"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -66.1854583017771,
+          18.4296439015623
+        ]
+      },
+      "properties": {
+        "id": "siren-10",
+        "name": "Sirena · Sabana Seca · Cll Acueducto",
+        "kind": "siren",
+        "sources": [
+          {
+            "label": "Municipal GIS 2025 · record 10",
+            "url": "https://services8.arcgis.com/n6by4cEju3ytQLNI/ArcGIS/rest/services/Temporada_de_Huracanes_2025_WFL1/FeatureServer/2/10"
+          }
+        ],
+        "vintage": "2025 GIS",
+        "note": "Parque de Pelota. The source reports functioning in its snapshot; current operation is unconfirmed.",
+        "designationYear": null,
+        "operatingStatus": "unconfirmed",
+        "reviewedAt": "2026-09-07",
+        "exposureHigh": false,
+        "exposureModerate": false,
+        "zoneLabels": "X · AREA OF MINIMAL FLOOD HAZARD"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -66.2541250240513,
+          18.442866703973
+        ]
+      },
+      "properties": {
+        "id": "siren-11",
+        "name": "Sirena · Barrio Pueblo Toa Baja · Cll Rafael Arrieta",
+        "kind": "siren",
+        "sources": [
+          {
+            "label": "Municipal GIS 2025 · record 11",
+            "url": "https://services8.arcgis.com/n6by4cEju3ytQLNI/ArcGIS/rest/services/Temporada_de_Huracanes_2025_WFL1/FeatureServer/2/11"
+          }
+        ],
+        "vintage": "2025 GIS",
+        "note": "Techo de la Alcaldía. The source reports functioning in its snapshot; current operation is unconfirmed.",
+        "designationYear": null,
+        "operatingStatus": "unconfirmed",
+        "reviewedAt": "2026-09-07",
+        "exposureHigh": true,
+        "exposureModerate": false,
+        "zoneLabels": "AE"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -66.1775039994035,
+          18.4401114050476
+        ]
+      },
+      "properties": {
+        "id": "siren-12",
+        "name": "Sirena · 6ta Sección Levittown · Ave Los Dominicos",
+        "kind": "siren",
+        "sources": [
+          {
+            "label": "Municipal GIS 2025 · record 12",
+            "url": "https://services8.arcgis.com/n6by4cEju3ytQLNI/ArcGIS/rest/services/Temporada_de_Huracanes_2025_WFL1/FeatureServer/2/12"
+          }
+        ],
+        "vintage": "2025 GIS",
+        "note": "Entre el estacionamiento y la Ave Los Dominicos. The source reports functioning in its snapshot; current operation is unconfirmed.",
+        "designationYear": null,
+        "operatingStatus": "unconfirmed",
+        "reviewedAt": "2026-09-07",
+        "exposureHigh": false,
+        "exposureModerate": true,
+        "zoneLabels": "X · 0.2 PCT ANNUAL CHANCE FLOOD HAZARD"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -66.1927330202132,
+          18.4613832690892
+        ]
+      },
+      "properties": {
+        "id": "siren-13",
+        "name": "Sirena · Punta Salinas · Cll Camino del Lago",
+        "kind": "siren",
+        "sources": [
+          {
+            "label": "Municipal GIS 2025 · record 13",
+            "url": "https://services8.arcgis.com/n6by4cEju3ytQLNI/ArcGIS/rest/services/Temporada_de_Huracanes_2025_WFL1/FeatureServer/2/13"
+          }
+        ],
+        "vintage": "2025 GIS",
+        "note": "Frente a cancha sin techo. The source reports functioning in its snapshot; current operation is unconfirmed.",
+        "designationYear": null,
+        "operatingStatus": "unconfirmed",
+        "reviewedAt": "2026-09-07",
+        "exposureHigh": true,
+        "exposureModerate": false,
+        "zoneLabels": "AE"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -66.2451512429495,
+          18.3973343890394
+        ]
+      },
+      "properties": {
+        "id": "siren-14",
+        "name": "Sirena · San José Parcelas Viejas · Cll 14",
+        "kind": "siren",
+        "sources": [
+          {
+            "label": "Municipal GIS 2025 · record 14",
+            "url": "https://services8.arcgis.com/n6by4cEju3ytQLNI/ArcGIS/rest/services/Temporada_de_Huracanes_2025_WFL1/FeatureServer/2/14"
+          }
+        ],
+        "vintage": "2025 GIS",
+        "note": "Esquina Cll 14 y Cll 3. The source reports functioning in its snapshot; current operation is unconfirmed.",
+        "designationYear": null,
+        "operatingStatus": "unconfirmed",
+        "reviewedAt": "2026-09-07",
+        "exposureHigh": false,
+        "exposureModerate": false,
+        "zoneLabels": "X · AREA OF MINIMAL FLOOD HAZARD"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -66.1809051346,
+          18.4478393294
+        ]
+      },
+      "properties": {
+        "id": "police-levittown",
+        "name": "Policía Estatal · Levittown",
+        "kind": "police",
+        "sources": [
+          {
+            "label": "Mitigation plan 2024 · Table 16, printed p.52",
+            "url": "https://www.toabaja.com/wp-content/uploads/2025/03/TBAJ-FinalHMP_Approved_24.04.10-OCE10539_web.pdf#page=54"
+          }
+        ],
+        "vintage": "2019 inventory / 2024 plan",
+        "note": "Historical inventory. The plan notes location discrepancies; current location and operation need confirmation.",
+        "designationYear": null,
+        "operatingStatus": "unconfirmed",
+        "reviewedAt": "2026-09-07",
+        "exposureHigh": false,
+        "exposureModerate": true,
+        "zoneLabels": "X · 0.2 PCT ANNUAL CHANCE FLOOD HAZARD"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -66.2535214391,
+          18.4400596182
+        ]
+      },
+      "properties": {
+        "id": "police-pueblo",
+        "name": "Policía Estatal · Pueblo",
+        "kind": "police",
+        "sources": [
+          {
+            "label": "Mitigation plan 2024 · Table 16, printed p.52",
+            "url": "https://www.toabaja.com/wp-content/uploads/2025/03/TBAJ-FinalHMP_Approved_24.04.10-OCE10539_web.pdf#page=54"
+          }
+        ],
+        "vintage": "2019 inventory / 2024 plan",
+        "note": "Historical inventory. The plan notes location discrepancies; current location and operation need confirmation.",
+        "designationYear": null,
+        "operatingStatus": "unconfirmed",
+        "reviewedAt": "2026-09-07",
+        "exposureHigh": true,
+        "exposureModerate": false,
+        "zoneLabels": "AE"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -66.1943283444,
+          18.4379989917
+        ]
+      },
+      "properties": {
+        "id": "police-municipal",
+        "name": "Policía Municipal · Toa Baja",
+        "kind": "police",
+        "sources": [
+          {
+            "label": "Mitigation plan 2024 · Table 16, printed p.52",
+            "url": "https://www.toabaja.com/wp-content/uploads/2025/03/TBAJ-FinalHMP_Approved_24.04.10-OCE10539_web.pdf#page=54"
+          }
+        ],
+        "vintage": "2019 inventory / 2024 plan",
+        "note": "Historical inventory. The plan notes location discrepancies; current location and operation need confirmation.",
+        "designationYear": null,
+        "operatingStatus": "unconfirmed",
+        "reviewedAt": "2026-09-07",
+        "exposureHigh": false,
+        "exposureModerate": false,
+        "zoneLabels": "X · AREA OF MINIMAL FLOOD HAZARD"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -66.2529274144,
+          18.4401675494
+        ]
+      },
+      "properties": {
+        "id": "fire-toa-baja",
+        "name": "Parque de Bombas Toa Baja",
+        "kind": "fire",
+        "sources": [
+          {
+            "label": "Mitigation plan 2024 · Table 16, printed p.52",
+            "url": "https://www.toabaja.com/wp-content/uploads/2025/03/TBAJ-FinalHMP_Approved_24.04.10-OCE10539_web.pdf#page=54"
+          }
+        ],
+        "vintage": "2019 inventory / 2024 plan",
+        "note": "Historical inventory. The plan notes location discrepancies; current location and operation need confirmation.",
+        "designationYear": null,
+        "operatingStatus": "unconfirmed",
+        "reviewedAt": "2026-09-07",
+        "exposureHigh": true,
+        "exposureModerate": false,
+        "zoneLabels": "AE"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -66.1948829716,
+          18.4391405191
+        ]
+      },
+      "properties": {
+        "id": "health-toa-baja",
+        "name": "Toa Baja Health Center",
+        "kind": "health",
+        "sources": [
+          {
+            "label": "Mitigation plan 2024 · Table 16, printed p.52",
+            "url": "https://www.toabaja.com/wp-content/uploads/2025/03/TBAJ-FinalHMP_Approved_24.04.10-OCE10539_web.pdf#page=54"
+          }
+        ],
+        "vintage": "2019 inventory / 2024 plan",
+        "note": "Historical inventory. The plan notes location discrepancies; current location and operation need confirmation.",
+        "designationYear": null,
+        "operatingStatus": "unconfirmed",
+        "reviewedAt": "2026-09-07",
+        "exposureHigh": false,
+        "exposureModerate": false,
+        "zoneLabels": "X · AREA OF MINIMAL FLOOD HAZARD"
+      }
+    }
+  ]
+}

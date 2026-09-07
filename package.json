@@ -13,9 +13,10 @@
     "format": "oxfmt",
     "typecheck": "tsc --noEmit",
     "test:data": "node scripts/validate-data.mjs",
-    "data:refresh": "node scripts/fetch-data.mjs && node scripts/fetch-map-features.mjs && node scripts/split-footprints.mjs && node scripts/analyze.mjs",
+    "data:refresh": "node scripts/fetch-data.mjs && node scripts/fetch-map-features.mjs && node scripts/split-footprints.mjs && node scripts/analyze.mjs && node scripts/build-facilities.mjs",
     "predev": "node scripts/prepare-map-worker.mjs",
-    "prebuild": "node scripts/prepare-map-worker.mjs"
+    "prebuild": "node scripts/prepare-map-worker.mjs",
+    "data:facilities": "node scripts/build-facilities.mjs"
   },
   "dependencies": {
     "@base-ui/react": "1.7.0",

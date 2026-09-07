@@ -82,3 +82,37 @@ assert.equal(booleanIntersects(square(0, 0), square(1, 0)), true);
 console.log(
   'PASS: source identity, unique IDs, summary totals, monotonic hazard views, 200+ independent spatial spot checks, and boundary-contact semantics.',
 );
+
+const { default: pointInPolygon } =
+  await import('@turf/boolean-point-in-polygon');
+const facilities = await read('facilities.geojson');
+assert.equal(facilities.features.length, 31);
+assert.equal(new Set(facilities.features.map((f) => f.properties.id)).size, 31);
+assert.equal(
+  facilities.features.filter((f) => f.properties.designationYear === 2026)
+    .length,
+  12,
+);
+for (const f of facilities.features) {
+  assert.ok(
+    boundary.features.some((b) => pointInPolygon(f, b)),
+    `${f.properties.name} outside Toa Baja`,
+  );
+  assert.equal(f.properties.operatingStatus, 'unconfirmed');
+  assert.ok(
+    f.properties.sources.length &&
+      f.properties.sources.every((s) => s.url.startsWith('https://')),
+  );
+  const zones = flood.features.filter((z) => pointInPolygon(f, z));
+  assert.equal(
+    f.properties.exposureHigh,
+    zones.some((z) => z.properties.SFHA_TF === 'T'),
+  );
+  assert.equal(
+    f.properties.exposureModerate,
+    zones.some((z) => String(z.properties.ZONE_SUBTY).includes('0.2 PCT')),
+  );
+}
+console.log(
+  'Facility inventory: 31 unique sourced points within Toa Baja, 12 designated 2026 shelters; all point exposures independently checked.',
+);
