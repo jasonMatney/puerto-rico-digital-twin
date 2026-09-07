@@ -1,0 +1,41 @@
+{
+  "retrievedAt": "2026-09-07T02:51:51.672Z",
+  "bbox": [
+    -66.26437899988778,
+    18.389288999916594,
+    -66.12896599994879,
+    18.52627100038596
+  ],
+  "boundary": {
+    "url": "https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/State_County/MapServer/1",
+    "count": 1,
+    "properties": {
+      "GEOID": "72137",
+      "NAME": "Toa Baja Municipio",
+      "AREALAND": 60252060,
+      "AREAWATER": 47993012
+    }
+  },
+  "flood": {
+    "url": "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/28",
+    "count": 95,
+    "zones": [
+      "VE",
+      "AE",
+      "A",
+      "X"
+    ],
+    "note": "FEMA NFHL mapped flood hazard zones intersecting municipal bounding box; not Hurricane Maria observed inundation."
+  },
+  "mapFeatures": {
+    "tilejson": "https://tiles.openfreemap.org/planet",
+    "tileTemplate": "https://tiles.openfreemap.org/planet/20260830_080001_pt/{z}/{x}/{y}.pbf",
+    "retrievedAt": "2026-09-07T02:53:26.998Z",
+    "zoom": 14,
+    "tiles": 56,
+    "buildings": 33461,
+    "roadSegments": 600,
+    "license": "© OpenStreetMap contributors, ODbL 1.0",
+    "method": "Building geometries intersecting Census boundary; same vector feature IDs unioned across tiles. Roads are tile segments, not unique roads. Coverage and rendering heights are not survey verified. Merged multipolygons split into individual footprint polygons, then filtered against municipal boundary; IDs are snapshot-specific, not cadastral IDs."
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "buildings": {
+    "total": 33461,
+    "high": 6862,
+    "extended": 17065
+  },
+  "roads": {
+    "total": 600,
+    "high": 283,
+    "extended": 404
+  },
+  "floodPolygons": 57,
+  "highPolygons": 28,
+  "moderatePolygons": 16,
+  "method": "Any geometry intersection with FEMA mapped polygons. Boundary-touching features included. Buildings are mapped vector features, not verified structures or households; roads are tile segments, not unique roads. No water-depth or passability model."
+}
