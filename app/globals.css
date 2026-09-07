@@ -1767,3 +1767,221 @@ h3 {
     );
   }
 }
+
+.timeline-mode > .control-panel,
+.timeline-mode > .summary-panel,
+.timeline-mode > .detail-panel,
+.timeline-mode > .show-controls,
+.timeline-mode > .map-caption,
+.timeline-mode > .status-pill {
+  display: none;
+}
+.storm-weather {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 2;
+}
+.storm-dashboard {
+  position: absolute;
+  right: 24px;
+  top: calc(var(--atlas-header-height, 110px) + 16px);
+  z-index: 5;
+  width: 330px;
+  max-height: calc(100dvh - var(--atlas-header-height, 110px) - 190px);
+  overflow: auto;
+  padding: 1.3rem;
+  border: 1px solid #476776;
+  border-radius: 15px;
+  background: #0a2432ed;
+  backdrop-filter: blur(16px);
+  box-shadow: 0 15px 50px #00111b66;
+}
+.storm-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.demo-badge {
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  color: #ffcc70;
+  border: 1px solid #88703e;
+  border-radius: 4px;
+  padding: 0.3rem 0.5rem;
+  white-space: nowrap;
+}
+.storm-dashboard h2 {
+  font-size: 1.9rem;
+  letter-spacing: -0.04em;
+  margin: 0.6rem 0 1rem;
+}
+.storm-dashboard h3 {
+  font-size: 0.95rem;
+  margin: 1.1rem 0 0.6rem;
+}
+.storm-metrics {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+.storm-metrics > div {
+  padding: 0.8rem;
+  background: #143747;
+  border-radius: 8px;
+}
+.storm-metrics svg {
+  color: #67d7ec;
+}
+.storm-metrics strong {
+  display: block;
+  font-size: 2.2rem;
+  font-weight: 500;
+  line-height: 1.4;
+}
+.storm-metrics small {
+  font-size: 0.75rem;
+  color: #b1c7d0;
+}
+.storm-metrics span {
+  font-size: 0.8rem;
+  color: #b1c7d0;
+}
+.storm-wind {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  margin: 1rem 0;
+  font-size: 0.8rem;
+  color: #b1c7d0;
+}
+.storm-wind svg {
+  color: #67d7ec;
+  transition: transform 0.8s linear;
+}
+.storm-counts {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+.storm-counts strong {
+  font-size: 1.8rem;
+  display: block;
+}
+.storm-counts span {
+  font-size: 0.8rem;
+}
+.storm-online {
+  color: #b7f578;
+}
+.storm-standby {
+  color: #ffcc70;
+}
+.storm-offline {
+  color: #ff6488;
+}
+.storm-dashboard p {
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: #abc2ce;
+}
+.storm-dashboard .storm-disclaimer {
+  font-size: 0.8rem;
+  border-top: 1px solid #375160;
+  padding-top: 0.7rem;
+}
+.storm-weather-toggle {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-size: 0.875rem;
+  margin: 1rem 0;
+}
+.storm-selected {
+  border: 1px solid #4e788b;
+  padding: 0.7rem;
+  border-radius: 7px;
+  margin: 0.7rem 0;
+  font-size: 0.9rem;
+}
+.storm-timeline {
+  position: absolute;
+  left: 24px;
+  right: 24px;
+  bottom: 48px;
+  z-index: 5;
+  border: 1px solid #527282;
+  border-radius: 12px;
+  background: #092330f5;
+  backdrop-filter: blur(16px);
+  padding: 1rem 1.4rem;
+}
+.storm-transport {
+  display: flex;
+  gap: 0.6rem;
+  align-items: center;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+.storm-transport > strong {
+  font-family: var(--font-geist-mono);
+  font-size: 1.25rem;
+  margin: 0 0.8rem;
+  color: #c1f98b;
+}
+.storm-stages {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 0.8rem;
+}
+.storm-stages button {
+  background: none;
+  border: 0;
+  font-size: 0.875rem;
+  color: #a5bdc9;
+  text-align: left;
+}
+.storm-stages [aria-current] {
+  color: #b7f578;
+}
+@media (max-width: 700px) {
+  .storm-dashboard {
+    left: 12px;
+    right: 12px;
+    width: auto;
+    max-height: calc(100dvh - var(--atlas-header-height, 110px) - 260px);
+    padding: 1rem;
+  }
+  .storm-dashboard h2 {
+    font-size: 1.5rem;
+  }
+  .storm-metrics strong {
+    font-size: 1.6rem;
+  }
+  .storm-timeline {
+    left: 12px;
+    right: 12px;
+    bottom: 45px;
+    padding: 0.8rem;
+  }
+  .storm-transport .demo-badge {
+    display: none;
+  }
+  .storm-transport > strong {
+    font-size: 1rem;
+  }
+  .storm-stages {
+    gap: 0.5rem;
+  }
+  .storm-stages button {
+    font-size: 0.75rem;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .storm-wind svg {
+    transition: none;
+  }
+}

@@ -1,4 +1,5 @@
 'use client';
+import { DemoTimeline } from './demo-timeline';
 import { ScenarioStudio } from './scenario-studio';
 import { CinematicTour, type TourCamera } from './cinematic-tour';
 
@@ -235,6 +236,11 @@ function MunicipalAtlas() {
   };
   const [presenting, setPresenting] = useState(false);
   const [scenario, setScenario] = useState(false);
+  const [timeline, setTimeline] = useState(false);
+  const closeTimeline = useCallback(() => {
+    setTimeline(false);
+    setSelection(null);
+  }, []);
   const closeScenario = useCallback(() => setScenario(false), []);
   const tourCamera = useCallback((camera: TourCamera) => {
     setView('high');
@@ -905,9 +911,18 @@ function MunicipalAtlas() {
       className={
         'atlas' +
         (presenting ? ' presenting' : '') +
-        (scenario ? ' scenario-mode' : '')
+        (scenario ? ' scenario-mode' : '') +
+        (timeline ? ' timeline-mode' : '')
       }
     >
+      {timeline && (
+        <DemoTimeline
+          mapRef={map}
+          facilities={facilities}
+          lang={lang}
+          onClose={closeTimeline}
+        />
+      )}
       {scenario && (
         <ScenarioStudio mapRef={map} lang={lang} onClose={closeScenario} />
       )}
@@ -944,7 +959,28 @@ function MunicipalAtlas() {
         </div>
         <div className="header-actions">
           <div className="experience-actions">
-            {!scenario && (
+            {!scenario && !timeline && !presenting && (
+              <Button
+                disabled={!ready || error}
+                onClick={() => {
+                  setSelection(null);
+                  setTimeline(true);
+                  map.current?.flyTo({
+                    ...home,
+                    padding: { top: 0, left: 0, right: 0, bottom: 0 },
+                    duration: window.matchMedia(
+                      '(prefers-reduced-motion: reduce)',
+                    ).matches
+                      ? 0
+                      : 1500,
+                  });
+                }}
+              >
+                <Globe2 size={16} />
+                {lang === 'es' ? 'Demo de tormenta' : 'Storm demo'}
+              </Button>
+            )}
+            {!scenario && !timeline && (
               <Button
                 className="tour-launch"
                 disabled={!ready || error}
@@ -954,7 +990,7 @@ function MunicipalAtlas() {
                 {lang === 'es' ? 'Recorrido cinematográfico' : 'Cinematic tour'}
               </Button>
             )}
-            {!scenario && !presenting && (
+            {!scenario && !presenting && !timeline && (
               <Button
                 className="scenario-launch"
                 disabled={!ready || error}
@@ -1037,7 +1073,9 @@ function MunicipalAtlas() {
           >
             <X size={18} />
           </button>
-          <span className="eyebrow">{c.pilot} / TOA BAJA</span>
+          <span className="eyebrow">
+            {c.pilot} / {municipality.name.toUpperCase()}
+          </span>
           <h2>{c.intro}</h2>
           <p className="intro-copy">{c.sub}</p>
           <label className="section-label" id="hazard-label">

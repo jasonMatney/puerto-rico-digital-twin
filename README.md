@@ -234,3 +234,20 @@ only while enabled and releases it on exit. Failed comparison loading is reporte
 without modifying source data. Animation respects reduced motion and pauses when
 the document is hidden. Closing the studio removes both demo layers and cancels
 animation. No review records, source geometries or approvals are changed.
+
+### Fictional storm timeline
+
+Storm demo is a client-only 24-hour presentation, played in 60 seconds or scrubbed
+manually. Approach, peak and recovery use deterministic invented rain and wind
+values from `lib/demo-storm.ts`. Colored facility statuses follow an index-based
+script, not flood exposure or facility capabilities. They are not operational
+updates. The dashboard and timeline visibly identify demo data and fictional time.
+
+The demo creates a separate GeoJSON source with scripted status properties,
+hides the normal facility-point layer while active, and restores its previous
+visibility on exit. No source inventory, database review or publication is
+modified. Click a scripted marker to see its demo status. Rain effects can be
+turned off; they start off for reduced-motion users. Playback and rain effects
+stop when the page is hidden. The overlay removes its layers and listeners on
+exit. `scripts/validate-demo-storm.mjs` checks time bounds, phase transitions,
+fictional-value ranges and count conservation for both municipalities.
