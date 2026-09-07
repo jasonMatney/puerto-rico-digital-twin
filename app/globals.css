@@ -1985,3 +1985,37 @@ h3 {
     transition: none;
   }
 }
+
+.network-controls {
+  border: 1px solid #3f7988;
+  border-radius: 10px;
+  padding: 0.85rem;
+  background: #103442;
+  margin: 1rem 0;
+}
+.network-controls .network-badge {
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+  color: #72e5f0;
+}
+.network-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.8rem;
+}
+.network-actions button {
+  font-size: 0.8rem;
+  white-space: normal;
+  height: auto;
+  min-height: 36px;
+}
+.network-controls [data-slot='select-trigger'] {
+  width: 100%;
+  min-width: 0;
+}
+.network-controls [data-slot='select-value'] {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

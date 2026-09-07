@@ -18,6 +18,18 @@ import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
 import { Switch } from '@/components/ui/switch';
 import type { Facility } from './facilities';
+import {
+  buildDemoNetwork,
+  dependencyDepths,
+  networkStatus,
+} from '@/lib/demo-network';
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
+} from '@/components/ui/select';
 import { stormFrame, demoStatus } from '@/lib/demo-storm';
 const SOURCE = 'fictional-facilities',
   LAYER = 'fictional-status',
@@ -27,11 +39,13 @@ export function DemoTimeline({
   facilities,
   lang,
   onClose,
+  initialNetwork = false,
 }: {
   mapRef: RefObject<GLMap | null>;
   facilities: Facility[];
   lang: 'en' | 'es';
   onClose: () => void;
+  initialNetwork?: boolean;
 }) {
   const es = lang === 'es';
   const [hour, setHour] = useState(0),
@@ -39,6 +53,8 @@ export function DemoTimeline({
     [weather, setWeather] = useState(false),
     [selected, setSelected] = useState<string | null>(null),
     [error, setError] = useState('');
+  const [network, setNetwork] = useState(initialNetwork),
+    [outage, setOutage] = useState<string | null>(null);
   const time = useRef(0),
     canvas = useRef<HTMLCanvasElement>(null);
   const state = stormFrame(hour),
@@ -51,6 +67,81 @@ export function DemoTimeline({
       ),
     [facilities],
   );
+  const nodes = useMemo(
+    () =>
+      sorted.map((f) => ({
+        id: f.properties.id,
+        kind: f.properties.kind,
+        coordinates: f.geometry.coordinates,
+      })),
+    [sorted],
+  );
+  const edges = useMemo(() => buildDemoNetwork(nodes), [nodes]);
+  const depths = useMemo(
+    () =>
+      outage ? dependencyDepths(edges, outage) : new Map<string, number>(),
+    [edges, outage],
+  );
+  const networkLive = useRef({
+    selected: null as string | null,
+    offline: new Set<string>(),
+    motion: false,
+  });
+  networkLive.current = {
+    selected,
+    offline: new Set(
+      nodes
+        .filter((n) => networkStatus(n.id, hour, depths) === 'offline')
+        .map((n) => n.id),
+    ),
+    motion: playing,
+  };
+  useEffect(() => {
+    if (network && !selected)
+      setSelected(
+        nodes.find((n) => n.kind === 'fire')?.id || nodes[0]?.id || null,
+      );
+  }, [network, nodes, selected]);
+  useEffect(() => {
+    const m = mapRef.current;
+    if (!network || !m) return;
+    let disposed = false,
+      id = 0;
+    void import('@/lib/network-arcs')
+      .then(({ networkArcs }) => {
+        if (disposed) return;
+        m.addLayer(
+          networkArcs(nodes, edges, () => ({
+            ...networkLive.current,
+            motion:
+              networkLive.current.motion &&
+              !window.matchMedia('(prefers-reduced-motion: reduce)').matches,
+          })),
+        );
+        const paint = () => {
+          if (disposed) return;
+          if (networkLive.current.motion) m.triggerRepaint();
+          id = requestAnimationFrame(paint);
+        };
+        paint();
+      })
+      .catch(() => {
+        if (!disposed)
+          setError(
+            es
+              ? 'No se pudo cargar la red 3D.'
+              : 'The 3D network could not load.',
+          );
+      });
+    return () => {
+      disposed = true;
+      cancelAnimationFrame(id);
+      if (m.getLayer('demo-network-arcs')) m.removeLayer('demo-network-arcs');
+    };
+  }, [network, mapRef, nodes, edges]);
+  useEffect(() => {
+    mapRef.current?.triggerRepaint();
+  }, [selected, outage, hour, network, mapRef]);
   const simulated = useMemo(
     () =>
       sorted.map((f, i) => ({
@@ -59,11 +150,13 @@ export function DemoTimeline({
         properties: {
           id: f.properties.id,
           name: f.properties.name,
-          demoStatus: demoStatus(i, hour),
+          demoStatus: network
+            ? networkStatus(f.properties.id, hour, depths)
+            : demoStatus(i, hour),
           demo: true,
         },
       })),
-    [sorted, hour],
+    [sorted, hour, network, depths],
   );
   const counts = { online: 0, standby: 0, offline: 0 };
   for (const f of simulated) counts[f.properties.demoStatus]++;
@@ -268,7 +361,75 @@ export function DemoTimeline({
         <p className="eyebrow">
           {es ? 'TORMENTA FICTICIA / 24 HORAS' : 'FICTIONAL STORM / 24 HOURS'}
         </p>
-        <h2>{phases[state.phase as keyof typeof phases]}</h2>
+        <h2>
+          {network
+            ? es
+              ? 'Red de infraestructura'
+              : 'Infrastructure network'
+            : phases[state.phase as keyof typeof phases]}
+        </h2>
+        <label className="storm-weather-toggle">
+          {es ? 'Red ilustrativa' : 'Illustrative network'}
+          <Switch checked={network} onCheckedChange={setNetwork} />
+        </label>
+        {network && (
+          <div className="network-controls">
+            <p className="network-badge">
+              {es ? 'DEPENDENCIAS ILUSTRATIVAS' : 'ILLUSTRATIVE DEPENDENCIES'}
+            </p>
+            <p>
+              {edges.length}{' '}
+              {es
+                ? 'conexiones por categoría y proximidad. No son rutas, cables ni dependencias verificadas.'
+                : 'connections by category and proximity. Not routes, cables or verified dependencies.'}
+            </p>
+            <Select
+              value={selected || ''}
+              onValueChange={(v) => setSelected(v)}
+              items={Object.fromEntries(
+                sorted.map((f) => [f.properties.id, f.properties.name]),
+              )}
+            >
+              <SelectTrigger
+                aria-label={es ? 'Instalación de la red' : 'Network facility'}
+              >
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                {sorted.map((f) => (
+                  <SelectItem key={f.properties.id} value={f.properties.id}>
+                    {f.properties.name}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+            <div className="network-actions">
+              <Button
+                disabled={!selected}
+                onClick={() => {
+                  setOutage(selected);
+                  time.current = 12;
+                  setHour(12);
+                  setPlaying(true);
+                }}
+              >
+                {es ? 'Provocar falla ficticia' : 'Trigger fictional outage'}
+              </Button>
+              <Button variant="outline" onClick={() => setOutage(null)}>
+                {es ? 'Restablecer red' : 'Reset network'}
+              </Button>
+            </div>
+            {outage && (
+              <p role="status">
+                {es
+                  ? 'Falla programada a H+12; recuperación desde H+18.'
+                  : 'Scripted outage at H+12; recovery begins at H+18.'}{' '}
+                {Math.max(0, depths.size - 1)}{' '}
+                {es ? 'dependientes en el guion.' : 'scripted dependents.'}
+              </p>
+            )}
+          </div>
+        )}
         <div className="storm-metrics">
           <div>
             <CloudRain size={22} />
@@ -330,8 +491,8 @@ export function DemoTimeline({
         </label>
         <p className="storm-disclaimer">
           {es
-            ? 'Valores inventados para presentación. No son pronósticos ni reportes operativos. Los estados se asignan por guion, no por exposición. Los registros reales no cambian.'
-            : 'Invented values for presentation. Not forecasts or operational reports. Status follows a script, not exposure. Real records do not change.'}
+            ? 'Valores inventados para presentación. No son pronósticos ni reportes operativos. Los estados y conexiones siguen un guion; no son dependencias verificadas. Los registros reales no cambian.'
+            : 'Invented values for presentation. Not forecasts or operational reports. Status and connections follow a script, not verified dependencies. Real records do not change.'}
         </p>
         {error && <p role="alert">{error}</p>}
       </section>

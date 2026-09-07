@@ -237,6 +237,7 @@ function MunicipalAtlas() {
   const [presenting, setPresenting] = useState(false);
   const [scenario, setScenario] = useState(false);
   const [timeline, setTimeline] = useState(false);
+  const [networkStart, setNetworkStart] = useState(false);
   const closeTimeline = useCallback(() => {
     setTimeline(false);
     setSelection(null);
@@ -917,6 +918,7 @@ function MunicipalAtlas() {
     >
       {timeline && (
         <DemoTimeline
+          initialNetwork={networkStart}
           mapRef={map}
           facilities={facilities}
           lang={lang}
@@ -964,6 +966,30 @@ function MunicipalAtlas() {
                 disabled={!ready || error}
                 onClick={() => {
                   setSelection(null);
+                  setIs3d(true);
+                  setNetworkStart(true);
+                  setTimeline(true);
+                  map.current?.flyTo({
+                    ...home,
+                    padding: { top: 0, left: 0, right: 0, bottom: 0 },
+                    duration: window.matchMedia(
+                      '(prefers-reduced-motion: reduce)',
+                    ).matches
+                      ? 0
+                      : 1500,
+                  });
+                }}
+              >
+                <Route size={16} />
+                {lang === 'es' ? 'Red 3D' : '3D network'}
+              </Button>
+            )}
+            {!scenario && !timeline && !presenting && (
+              <Button
+                disabled={!ready || error}
+                onClick={() => {
+                  setSelection(null);
+                  setNetworkStart(false);
                   setTimeline(true);
                   map.current?.flyTo({
                     ...home,
