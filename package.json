@@ -12,11 +12,12 @@
     "lint": "oxlint",
     "format": "oxfmt",
     "typecheck": "tsc --noEmit",
-    "test:data": "node scripts/validate-data.mjs",
-    "data:refresh": "node scripts/fetch-data.mjs && node scripts/fetch-map-features.mjs && node scripts/split-footprints.mjs && node scripts/analyze.mjs && node scripts/build-facilities.mjs",
+    "test:data": "node scripts/validate-data.mjs && node scripts/validate-access.mjs",
+    "data:refresh": "node scripts/fetch-data.mjs && node scripts/fetch-map-features.mjs && node scripts/split-footprints.mjs && node scripts/analyze.mjs && node scripts/build-facilities.mjs && node scripts/build-access.mjs",
     "predev": "node scripts/prepare-map-worker.mjs",
     "prebuild": "node scripts/prepare-map-worker.mjs",
-    "data:facilities": "node scripts/build-facilities.mjs"
+    "data:facilities": "node scripts/build-facilities.mjs && node scripts/build-access.mjs",
+    "data:access": "node scripts/build-access.mjs"
   },
   "dependencies": {
     "@base-ui/react": "1.7.0",

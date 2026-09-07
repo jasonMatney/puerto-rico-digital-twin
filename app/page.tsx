@@ -42,6 +42,7 @@ import {
 import 'maplibre-gl/dist/maplibre-gl.css';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { FacilityList, FacilityDetails, type Facility } from './facilities';
+import { AccessScreening } from './access-screening';
 
 type View = 'none' | 'high' | 'extended';
 type Summary = {
@@ -234,9 +235,24 @@ export default function Home() {
     [summary, setSummary] = useState<Summary | null>(null),
     [selection, setSelection] = useState<Selection | null>(null);
   const [facilities, setFacilities] = useState<Facility[]>([]);
+  const [accessData, setAccessData] = useState<FeatureCollection | null>(null);
+  const [accessError, setAccessError] = useState(false);
   const [category, setCategory] = useState('all');
   const [facilitiesVisible, setFacilitiesVisible] = useState(true);
   const c = copy[lang];
+  useEffect(() => {
+    const controller = new AbortController();
+    fetch('/data/access.geojson', { signal: controller.signal })
+      .then((r) => {
+        if (!r.ok) throw new Error('Access data unavailable');
+        return r.json() as Promise<FeatureCollection>;
+      })
+      .then(setAccessData)
+      .catch(() => {
+        if (!controller.signal.aborted) setAccessError(true);
+      });
+    return () => controller.abort();
+  }, []);
   useEffect(() => {
     document.documentElement.lang = lang;
   }, [lang]);
@@ -438,6 +454,35 @@ export default function Home() {
               source: 'selected',
               paint: { 'line-color': '#f4fb55', 'line-width': 4 },
             });
+            m.addSource('access-screening', {
+              type: 'geojson',
+              data: { type: 'FeatureCollection', features: [] },
+            });
+            m.addLayer({
+              id: 'access-radius',
+              type: 'line',
+              source: 'access-screening',
+              filter: ['==', ['get', 'kind'], 'radius'],
+              paint: {
+                'line-color': '#ffffff',
+                'line-width': 2,
+                'line-dasharray': [3, 3],
+              },
+            });
+            m.addLayer({
+              id: 'access-roads-halo',
+              type: 'line',
+              source: 'access-screening',
+              filter: ['==', ['get', 'kind'], 'road'],
+              paint: { 'line-color': '#092330', 'line-width': 8 },
+            });
+            m.addLayer({
+              id: 'access-roads',
+              type: 'line',
+              source: 'access-screening',
+              filter: ['==', ['get', 'kind'], 'road'],
+              paint: { 'line-color': '#ffffff', 'line-width': 4 },
+            });
             m.addSource('facilities', { type: 'geojson', data: facilityData });
             m.addLayer({
               id: 'facility-points',
@@ -628,6 +673,34 @@ export default function Home() {
           ],
     );
   }, [ready, category, facilitiesVisible, view]);
+  useEffect(() => {
+    if (!ready || !map.current) return;
+    const shelterId =
+      selection?.kind === 'facility' && selection.properties.kind === 'shelter'
+        ? selection.properties.id
+        : null;
+    (map.current.getSource('access-screening') as GeoJSONSource).setData({
+      type: 'FeatureCollection',
+      features:
+        accessData?.features.filter(
+          (f) => f.properties?.shelterId === shelterId,
+        ) || [],
+    });
+    map.current.setPaintProperty(
+      'access-roads',
+      'line-color',
+      view === 'none'
+        ? '#ffffff'
+        : [
+            'case',
+            view === 'extended'
+              ? ['any', ['get', 'exposureHigh'], ['get', 'exposureModerate']]
+              : ['get', 'exposureHigh'],
+            '#ff914d',
+            '#ffffff',
+          ],
+    );
+  }, [selection, accessData, ready, view]);
   const selectFacility = (f: Facility) => {
     setFacilitiesVisible(true);
     setSelection({ kind: 'facility', properties: f.properties });
@@ -671,9 +744,7 @@ export default function Home() {
   }, [view, is3d]);
   const changeView = useCallback((v: View) => {
     setView(v);
-    setSelection(null);
-    const s = map.current?.getSource('selected') as GeoJSONSource | undefined;
-    s?.setData({ type: 'FeatureCollection', features: [] });
+    // Keep the inspected feature and its screening visible when comparing hazard views.
   }, []);
   useEffect(() => {
     type Tool = {
@@ -1023,12 +1094,24 @@ export default function Home() {
           </button>
           <span className="eyebrow">{c.detail}</span>
           {selection.kind === 'facility' ? (
-            <FacilityDetails
-              lang={lang}
-              facility={facilities.find(
-                (f) => f.properties.id === selection.properties.id,
-              )!}
-            />
+            <>
+              {selection.properties.kind === 'shelter' && (
+                <AccessScreening
+                  data={accessData}
+                  shelterId={String(selection.properties.id)}
+                  shelterName={String(selection.properties.name)}
+                  view={view}
+                  lang={lang}
+                  error={accessError}
+                />
+              )}
+              <FacilityDetails
+                lang={lang}
+                facility={facilities.find(
+                  (f) => f.properties.id === selection.properties.id,
+                )!}
+              />
+            </>
           ) : (
             <>
               <h3>

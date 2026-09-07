@@ -855,3 +855,21 @@ h3 {
     overflow-y: auto;
   }
 }
+.access-screening {
+  border-bottom: 1px solid #ffffff35;
+  margin-bottom: 18px;
+  padding-bottom: 16px;
+}
+.access-screening h4 {
+  color: #b7f578;
+  font-size: 16px;
+  margin: 12px 0;
+}
+.access-result {
+  font-size: 16px;
+  line-height: 1.5;
+  margin: 10px 0;
+}
+.access-screening .small {
+  margin: 10px 0;
+}

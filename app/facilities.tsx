@@ -67,6 +67,11 @@ export function FacilityList({
           ? '31 ubicaciones documentadas · 12 refugios designados en 2026. Estado operativo sin confirmar.'
           : '31 documented locations · 12 designated 2026 shelters. Operating status unconfirmed.'}
       </p>
+      <p className="small">
+        {es
+          ? 'Seleccione un refugio para evaluar vías dentro de 500 m.'
+          : 'Select a shelter to screen roads within 500 m.'}
+      </p>
       <Select
         value={category}
         onValueChange={(v) => v && onCategory(v)}
