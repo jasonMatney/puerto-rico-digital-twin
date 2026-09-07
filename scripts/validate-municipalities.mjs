@@ -51,11 +51,12 @@ for (const [name, data] of [
   );
   for (const f of data.features) assert(intersects(f, boundary.features[0]));
 }
-assert.equal(facilities.features.length, 2);
+assert.equal(facilities.features.length, 6);
 for (const f of facilities.features) {
-  assert(municipalities.catano.shelterIds.includes(f.properties.id));
+  if (f.properties.kind === 'shelter')
+    assert(municipalities.catano.shelterIds.includes(f.properties.id));
   assert(pointInPolygon(f, boundary.features[0]));
-  assert(f.properties.sources.length >= 2);
+  assert(f.properties.sources.length >= 1);
   assert.equal(f.properties.operatingStatus, 'unconfirmed');
   assert.equal(
     f.properties.exposureHigh,
@@ -78,4 +79,27 @@ assert.equal(previewImport(csv, 'catano').reviews.length, 1);
 assert.equal(previewImport(csv, 'toa-baja').errors.length, 1);
 console.log(
   'PASS: municipality scopes, cross-municipality CSV rejection, Cataño geometry, unique IDs, exposure counts and sourced shelter coverage.',
+);
+const readiness = JSON.parse(
+  await fs.readFile('public/data/readiness.json', 'utf8'),
+);
+for (const [slug, dir] of [
+  ['toa-baja', 'public/data'],
+  ['catano', 'public/data/catano'],
+]) {
+  const fc = JSON.parse(await fs.readFile(dir + '/facilities.geojson', 'utf8'));
+  assert.equal(readiness[slug].total, fc.features.length);
+  for (const [kind, count] of Object.entries(readiness[slug].counts))
+    assert.equal(
+      count,
+      fc.features.filter((f) => f.properties.kind === kind).length,
+    );
+  assert(readiness[slug].gaps.length > 0);
+}
+assert.equal(readiness.catano.counts.siren, 0);
+assert.equal(readiness.catano.counts.police, 1);
+assert.equal(readiness.catano.counts.fire, 1);
+assert.equal(readiness.catano.counts.health, 2);
+console.log(
+  'PASS: readiness counts agree with each inventory; missing siren coverage remains explicit.',
 );

@@ -1,3 +1,5 @@
+import { DataReadiness } from '@/app/data-readiness';
+import type { Municipio } from '@/lib/municipalities';
 import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { Compass, ArrowUpRight } from 'lucide-react';
@@ -47,6 +49,7 @@ export default async function Municipalities() {
               {m.shelterIds.length} designated shelters · Evidence review &
               approval
             </p>
+            <DataReadiness municipio={m.slug as Municipio} compact />
             <strong>Open workspace →</strong>
           </a>
         ))}

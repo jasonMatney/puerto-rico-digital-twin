@@ -145,7 +145,7 @@ Toa Baja retains its original data and saved records. Cataño (`72033`) has its
 own Census boundary, FEMA polygons, OpenFreeMap buildings and roads, plus two
 PRDOH 2026 designated shelters. Coordinates are the place coordinates in the
 Google Maps links supplied by the official list, retrieved September 7, 2026;
-they are not field verified. Cataño has no inventory of other facility types yet.
+they are not field verified. Cataño additionally includes four community-mapped police, fire and health points; siren coordinates remain unsubstantiated.
 `public/data/catano/manifest.json` records geographic sources and retrieval.
 `scripts/build-catano-facilities.mjs` records shelter provenance and coordinates.
 
@@ -171,3 +171,31 @@ source-backed shelter points, scope separation and cross-municipality CSV
 rejection. The Cataño validation briefing is a printable page at
 `/municipios/catano/briefing`; response sheets are generated from loaded records.
 The Toa Baja PDF and preview-only sample remain specific to Toa Baja.
+
+
+### Cataño facility expansion and readiness (2026-09-07)
+
+Four named OpenStreetMap records were retrieved via Overpass: municipal police
+way 533099600, fire station way 535083126, CDT way 952097685, and a historically
+sourced health clinic node 5150833707. The version, edit date, coordinates,
+source tags and original object links are retained in
+`data/facilities/catano-community-snapshot.json`. Building points use OSM
+bounding-box centers, not surveyed entrances. All four have unconfirmed current
+operation and capacity. ODbL attribution remains attached.
+
+The 2019 mitigation plan, Table 22 (printed p. 105), identifies police, fire
+and health facilities but is not current operational evidence. Its fire-station
+address (Calle Olivo) differs from OSM (Calle Hernández), so the discrepancy is
+flagged rather than reconciled without evidence. Planning Board's linked PDF
+returned 404; the plan was inspected via the public alternate copy linked at
+https://www.lascucharillas.com/recursos :
+https://drive.google.com/file/d/1ToKZogm8ldrGTferR6UDfV9xac3ff4Ss/view .
+
+The bounded search of the plan, public web sources and OSM did not substantiate
+siren coordinates. Zero mapped sirens means missing inventory, not absence of
+sirens. State police coordinates also remain unresolved. No outreach was sent.
+
+Run `node scripts/build-readiness.mjs` after changing either source inventory.
+The picker and facility panel share its category counts, evidence basis and
+gaps. This is source coverage, not an emergency readiness score; per-account
+reviews do not alter this original-inventory summary.

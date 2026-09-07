@@ -1,0 +1,64 @@
+{
+  "toa-baja": {
+    "asOf": "2026-09-07",
+    "counts": {
+      "shelter": 12,
+      "police": 3,
+      "fire": 1,
+      "health": 1,
+      "siren": 14
+    },
+    "total": 31,
+    "buildings": 33461,
+    "roads": 600,
+    "basis": [
+      "PRDOH 2026 shelters; 2025 municipal GIS",
+      "Other facilities: historical mitigation-plan inventory"
+    ],
+    "basisEs": [
+      "Refugios PRDOH 2026; SIG municipal 2025",
+      "Otras instalaciones: inventario histórico del plan de mitigación"
+    ],
+    "gaps": [
+      "Historical facility locations need reconfirmation",
+      "Siren functionality is historical, not live"
+    ],
+    "gapsEs": [
+      "Reconfirmar ubicaciones históricas de instalaciones",
+      "Funcionamiento de sirenas histórico, no en vivo"
+    ]
+  },
+  "catano": {
+    "asOf": "2026-09-07",
+    "counts": {
+      "shelter": 2,
+      "police": 1,
+      "fire": 1,
+      "health": 2,
+      "siren": 0
+    },
+    "total": 6,
+    "buildings": 9915,
+    "roads": 224,
+    "basis": [
+      "PRDOH 2026 shelters; linked map coordinates",
+      "OpenStreetMap facility locations; not field verified"
+    ],
+    "basisEs": [
+      "Refugios PRDOH 2026; coordenadas de mapas enlazados",
+      "Instalaciones OpenStreetMap; sin verificar en campo"
+    ],
+    "gaps": [
+      "Siren coordinates not substantiated; inventory unknown",
+      "State police location not established",
+      "Fire-station address differs between sources",
+      "Health records may be outdated; names and use need confirmation"
+    ],
+    "gapsEs": [
+      "Coordenadas de sirenas sin sustentar; inventario desconocido",
+      "Ubicación de policía estatal sin establecer",
+      "Dirección de bomberos difiere entre fuentes",
+      "Salud: confirmar vigencia, nombres y uso"
+    ]
+  }
+}

@@ -38,7 +38,7 @@ const features = records.map(([id, name, lon, lat, url]) => {
         { label: 'Location linked by PRDOH (not field verified)', url },
       ],
       vintage: '2026 designation / linked map coordinates accessed 2026-09-07',
-      note: 'Coordinates from the place linked in the PRDOH 2026 list; not field verified. Name, location, current operation and capacity require confirmation. This inventory contains designated shelters only; other facility coverage is not yet established.',
+      note: 'Coordinates from the place linked in the PRDOH 2026 list; not field verified. Name, location, current operation and capacity require confirmation.',
       designationYear: 2026,
       operatingStatus: 'unconfirmed',
       capacity: null,
@@ -57,8 +57,43 @@ const features = records.map(([id, name, lon, lat, url]) => {
   });
   return f;
 });
+const community = JSON.parse(
+  await fs.readFile('data/facilities/catano-community-snapshot.json', 'utf8'),
+);
+for (const r of community.records) {
+  const f = {
+    type: 'Feature',
+    geometry: { type: 'Point', coordinates: r.coordinates },
+    properties: {
+      id: r.id,
+      name: r.name,
+      kind: r.kind,
+      sources: [
+        { label: 'OpenStreetMap · community mapping (ODbL)', url: r.sourceUrl },
+      ],
+      vintage: `OSM version ${r.osmVersion}, edited ${r.osmTimestamp.slice(0, 10)} / retrieved 2026-09-07`,
+      note: `${r.coordinateMethod}; not field verified. Community mapping does not establish current name, use, operation or capacity. ${r.kind === 'fire' ? 'Address discrepancy: the 2019 mitigation plan lists Calle Olivo; OSM lists Calle Hernández. Confirmation required.' : r.id.includes('5150833707') ? 'OSM attributes cite PR Department of Health records from 2009/2015; continued operation and location require confirmation.' : 'Municipal confirmation required.'}`,
+      designationYear: null,
+      operatingStatus: 'unconfirmed',
+      capacity: null,
+      reviewedAt: '2026-09-07',
+      coordinateMethod: r.coordinateMethod,
+    },
+  };
+  if (!boundary.features.some((b) => pointInPolygon(f, b)))
+    throw Error('Community point outside Cataño: ' + r.id);
+  const zones = flood.features.filter((z) => pointInPolygon(f, z));
+  Object.assign(f.properties, {
+    exposureHigh: zones.some((z) => z.properties.SFHA_TF === 'T'),
+    exposureModerate: zones.some((z) =>
+      String(z.properties.ZONE_SUBTY).includes('0.2 PCT'),
+    ),
+    zoneLabels: zones.map((z) => z.properties.FLD_ZONE).join(', '),
+  });
+  features.push(f);
+}
 await fs.writeFile(
   dir + '/facilities.geojson',
   JSON.stringify({ type: 'FeatureCollection', features }),
 );
-console.log('Cataño: ' + features.length + ' sourced shelters.');
+console.log('Cataño: ' + features.length + ' sourced facility points.');

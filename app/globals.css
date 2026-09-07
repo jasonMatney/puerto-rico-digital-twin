@@ -1254,3 +1254,55 @@ h3 {
     font-size: 2rem;
   }
 }
+
+.data-readiness {
+  border-top: 1px solid var(--border);
+  padding-top: 1rem;
+  margin: 1.2rem 0;
+  font-size: 0.875rem;
+}
+.data-readiness h3 {
+  font-size: 1rem;
+  margin: 0 0 0.5rem;
+}
+.data-readiness h4 {
+  font-size: 0.875rem;
+  margin: 1rem 0 0.4rem;
+  color: var(--foreground);
+}
+.data-readiness p,
+.municipality-card .data-readiness p {
+  font-size: 0.875rem;
+  line-height: 1.5;
+  margin: 0.5rem 0;
+  color: var(--muted-foreground);
+}
+.data-readiness dl {
+  margin: 0.8rem 0;
+}
+.data-readiness dl > div {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.3rem 0;
+}
+.data-readiness dd {
+  color: var(--primary);
+  margin: 0;
+}
+.data-readiness ul {
+  padding-left: 1.2rem;
+  list-style: disc;
+  color: var(--muted-foreground);
+  line-height: 1.55;
+}
+.data-readiness li + li {
+  margin-top: 0.3rem;
+}
+.coverage-gap {
+  padding: 0.8rem;
+  border: 1px solid var(--border);
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: var(--muted-foreground);
+}

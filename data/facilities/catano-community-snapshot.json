@@ -1,0 +1,73 @@
+{
+  "retrievedAt": "2026-09-07T06:08:05Z",
+  "retrievalDate": "2026-09-07",
+  "license": "OpenStreetMap contributors, ODbL 1.0",
+  "records": [
+    {
+      "id": "catano-health-5150833707",
+      "name": "Centro De Diagnostico Y Tratamiento Eulalia Kuilan - Cataño -",
+      "kind": "health",
+      "coordinates": [
+        -66.153956,
+        18.436202
+      ],
+      "sourceUrl": "https://www.openstreetmap.org/node/5150833707",
+      "osmVersion": 3,
+      "osmTimestamp": "2025-11-07T16:20:01Z",
+      "coordinateMethod": "OSM mapped point",
+      "sourceTags": {
+        "addr:full": "Carretera PR 5, Km. 2.8;Carretera 869 Bo. Palmas Catano",
+        "source": "SARAFS, Departamento de la Salud de Puerto Rico 2015",
+        "source:en": "Office of Public Health Response Preparation and Coordination, Puerto Rico Department of Health 2009"
+      }
+    },
+    {
+      "id": "catano-police-533099600",
+      "name": "Cuartel Policía Municipal de Cataño Sgto. Carlos Reyes Rivera",
+      "kind": "police",
+      "coordinates": [
+        -66.1262691,
+        18.4414143
+      ],
+      "sourceUrl": "https://www.openstreetmap.org/way/533099600",
+      "osmVersion": 4,
+      "osmTimestamp": "2021-06-07T18:59:58Z",
+      "coordinateMethod": "OSM bounding-box center of mapped building",
+      "sourceTags": {
+        "addr:street": "Avenida Las Nereidas"
+      }
+    },
+    {
+      "id": "catano-fire-535083126",
+      "name": "Estación de Bomberos de Cataño Comandante Abelsaín Coreano Cruz",
+      "kind": "fire",
+      "coordinates": [
+        -66.1267694,
+        18.4408239
+      ],
+      "sourceUrl": "https://www.openstreetmap.org/way/535083126",
+      "osmVersion": 4,
+      "osmTimestamp": "2025-03-02T15:12:44Z",
+      "coordinateMethod": "OSM bounding-box center of mapped building",
+      "sourceTags": {
+        "addr:street": "Calle Hernández"
+      }
+    },
+    {
+      "id": "catano-health-952097685",
+      "name": "CDT Cataño",
+      "kind": "health",
+      "coordinates": [
+        -66.1273899,
+        18.4419324
+      ],
+      "sourceUrl": "https://www.openstreetmap.org/way/952097685",
+      "osmVersion": 2,
+      "osmTimestamp": "2026-07-27T14:26:02Z",
+      "coordinateMethod": "OSM bounding-box center of mapped building",
+      "sourceTags": {
+        "addr:street": "Avenida Las Nereidas"
+      }
+    }
+  ]
+}

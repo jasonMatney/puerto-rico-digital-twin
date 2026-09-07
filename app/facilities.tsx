@@ -1,4 +1,5 @@
 'use client';
+import { DataReadiness } from './data-readiness';
 import { useMunicipality } from './municipality-context';
 import type { Feature, Point } from 'geojson';
 import { Button } from '@/components/ui/button';
@@ -102,6 +103,13 @@ export function FacilityList({
         {view !== 'none' &&
           ` · ${exposed} ${es ? 'en zonas seleccionadas' : 'in selected zones'}`}
       </p>
+      {ready && visible.length === 0 && (
+        <p role="status" className="coverage-gap">
+          {es
+            ? 'No hay puntos documentados en esta categoría. Esto no significa que no existan instalaciones.'
+            : 'No documented points in this category. This does not mean no facilities exist.'}
+        </p>
+      )}
       <div className="facility-list">
         {visible.map((f) => (
           <Button
@@ -127,6 +135,7 @@ export function FacilityList({
           ? 'Los anillos naranjas indican puntos en zonas seleccionadas. La exposición corresponde al punto, no al edificio completo ni al acceso.'
           : 'Orange rings mark points in selected flood zones. Exposure describes the point, not the whole building or access.'}
       </p>
+      <DataReadiness municipio={municipality.slug} lang={lang} />
       <a
         className="small"
         href={municipality.dataPath + '/facilities.geojson'}
