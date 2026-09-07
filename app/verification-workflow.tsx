@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react';
 import { PublishReview } from './publish-review';
 import { ReviewQueue } from './review-queue';
+import { CsvImport } from './csv-import';
 import type { Facility } from './facilities';
 import type { Verification, SavedVerification } from '@/lib/verification';
 import { Button } from '@/components/ui/button';
@@ -145,6 +146,7 @@ export function VerificationWorkflow({
   }
   return (
     <>
+      <CsvImport facilities={facilities} lang={lang} />
       <ReviewQueue
         facilities={facilities}
         lang={lang}
