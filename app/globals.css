@@ -1465,3 +1465,227 @@ h3 {
     font-size: 0.75rem;
   }
 }
+
+.scenario-launch {
+  position: absolute;
+  right: 24px;
+  top: 146px;
+  z-index: 5;
+}
+.scenario-mode > .control-panel,
+.scenario-mode > .summary-panel,
+.scenario-mode > .detail-panel,
+.scenario-mode > .show-controls,
+.scenario-mode > .map-caption {
+  display: none;
+}
+.scenario-baseline {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+.scenario-baseline-map {
+  width: 100%;
+  height: 100%;
+}
+.scenario-divider {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: #e9fcff;
+  z-index: 2;
+  pointer-events: none;
+  box-shadow: 0 0 18px #102e40;
+}
+.scenario-divider > button {
+  position: absolute;
+  top: 45%;
+  left: -18px;
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: #b7f578;
+  color: #102717;
+  font-size: 1.2rem;
+}
+.scenario-panel {
+  position: absolute;
+  z-index: 5;
+  left: 24px;
+  top: 112px;
+  width: 350px;
+  max-height: calc(100dvh - 180px);
+  overflow: auto;
+  padding: 1.25rem;
+  background: #092532ee;
+  backdrop-filter: blur(18px);
+  border: 1px solid #477284;
+  border-radius: 14px;
+  box-shadow: 0 18px 70px #0006;
+}
+.scenario-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+}
+.scenario-heading .eyebrow {
+  font-size: 0.75rem;
+}
+.scenario-panel h2 {
+  font-size: 1.7rem;
+  line-height: 1.1;
+  letter-spacing: -0.035em;
+  margin: 0.6rem 0 1rem;
+}
+.scenario-panel p {
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: #afc9d3;
+}
+.scenario-presets {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin: 1.1rem 0;
+}
+.scenario-presets button {
+  font-size: 0.875rem;
+}
+.scenario-level {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #53d8ee;
+  margin: 1.2rem 0;
+}
+.scenario-level span {
+  display: block;
+  font-size: 0.75rem;
+  letter-spacing: 0.13em;
+}
+.scenario-level strong {
+  font-size: 3.4rem;
+  line-height: 1.2;
+  font-weight: 500;
+  letter-spacing: -0.045em;
+}
+.scenario-level small {
+  font-size: 1.1rem;
+  letter-spacing: 0;
+  color: #acc6d0;
+}
+.scenario-slider-label {
+  display: block;
+  font-size: 0.875rem;
+  margin-bottom: 0.8rem;
+}
+.scenario-scale {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.8rem;
+  color: #aec6d0;
+  margin: 0.6rem 0;
+}
+.scenario-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin: 1rem 0;
+}
+.scenario-actions label {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.875rem;
+}
+.scenario-split {
+  border-top: 1px solid #335969;
+  padding-top: 1rem;
+}
+.scenario-split label {
+  display: block;
+  font-size: 0.875rem;
+  margin-bottom: 0.8rem;
+}
+.scenario-panel .scenario-limits {
+  border-top: 1px solid #335969;
+  padding-top: 1rem;
+  font-size: 0.8rem;
+}
+.scenario-labels {
+  position: absolute;
+  top: 110px;
+  left: 50%;
+  right: 24px;
+  z-index: 3;
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+  pointer-events: none;
+}
+.scenario-labels span {
+  background: #071e2ae8;
+  padding: 0.5rem 0.7rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+}
+.scenario-labels .scenario-demo {
+  color: #63def0;
+  border: 1px solid #3d8da1;
+}
+.scenario-mode > .topbar,
+.scenario-mode > .bottom-note,
+.scenario-mode > .status-pill {
+  z-index: 6;
+}
+@media (max-width: 700px) {
+  .scenario-launch {
+    top: auto;
+    bottom: 132px;
+    right: 16px;
+  }
+  .scenario-panel {
+    left: 12px;
+    right: 12px;
+    top: auto;
+    bottom: 54px;
+    width: auto;
+    max-height: 44dvh;
+    padding: 1rem;
+  }
+  .scenario-panel h2 {
+    font-size: 1.4rem;
+  }
+  .scenario-level {
+    margin: 0.5rem 0;
+  }
+  .scenario-level strong {
+    font-size: 2.5rem;
+  }
+  .scenario-labels {
+    top: 105px;
+    left: 12px;
+    right: 12px;
+  }
+  .scenario-divider > button {
+    top: 30%;
+  }
+  .scenario-mode > .status-pill {
+    display: none;
+  }
+}
+
+.scenario-divider > button {
+  pointer-events: auto;
+  touch-action: none;
+  border: 1px solid #ecffed;
+  cursor: ew-resize;
+}

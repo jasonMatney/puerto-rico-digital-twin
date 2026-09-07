@@ -1,4 +1,5 @@
 'use client';
+import { ScenarioStudio } from './scenario-studio';
 import { CinematicTour, type TourCamera } from './cinematic-tour';
 
 import { MunicipalityContext, useMunicipality } from './municipality-context';
@@ -233,6 +234,8 @@ function MunicipalAtlas() {
     bearing: -18,
   };
   const [presenting, setPresenting] = useState(false);
+  const [scenario, setScenario] = useState(false);
+  const closeScenario = useCallback(() => setScenario(false), []);
   const tourCamera = useCallback((camera: TourCamera) => {
     setView('high');
     setIs3d(true);
@@ -678,7 +681,12 @@ function MunicipalAtlas() {
     map.current.setTerrain(
       terrain && is3d ? { source: 'dem', exaggeration: 1 } : null,
     );
-    map.current.easeTo({ pitch: is3d ? 52 : 0, duration: 650 });
+    map.current.easeTo({
+      pitch: is3d ? 52 : 0,
+      duration: window.matchMedia('(prefers-reduced-motion: reduce)').matches
+        ? 0
+        : 650,
+    });
     map.current.setPaintProperty(
       'pilot-buildings',
       'fill-extrusion-height',
@@ -879,16 +887,69 @@ function MunicipalAtlas() {
     URL.revokeObjectURL(url);
   };
   return (
-    <main className={'atlas' + (presenting ? ' presenting' : '')}>
-      <CinematicTour
-        facilities={facilities}
-        lang={lang}
-        ready={ready && !error}
-        active={presenting}
-        onActive={setPresenting}
-        onCamera={tourCamera}
-        onStop={stopTour}
-      />
+    <main
+      className={
+        'atlas' +
+        (presenting ? ' presenting' : '') +
+        (scenario ? ' scenario-mode' : '')
+      }
+    >
+      {scenario && (
+        <ScenarioStudio mapRef={map} lang={lang} onClose={closeScenario} />
+      )}
+      {!scenario && !presenting && (
+        <Button
+          className="scenario-launch"
+          disabled={!ready || error}
+          onClick={() => {
+            setIs3d(true);
+            setBuildings(true);
+            setTerrain(true);
+            setSelection(null);
+            const m = map.current;
+            if (m) {
+              m.setTerrain({ source: 'dem', exaggeration: 1 });
+              m.setLayoutProperty('pilot-buildings', 'visibility', 'visible');
+              m.setPaintProperty('pilot-buildings', 'fill-extrusion-height', [
+                'coalesce',
+                ['get', 'render_height'],
+                5,
+              ]);
+              const f =
+                facilities.find((f) => f.properties.exposureHigh) ||
+                facilities[0];
+              m.flyTo({
+                center:
+                  (f?.geometry.coordinates as [number, number]) ||
+                  municipality.center,
+                zoom: 15.4,
+                pitch: 58,
+                bearing: -25,
+                padding: { top: 0, left: 0, right: 0, bottom: 0 },
+                duration: window.matchMedia('(prefers-reduced-motion: reduce)')
+                  .matches
+                  ? 0
+                  : 1800,
+              });
+            }
+            setScenario(true);
+          }}
+        >
+          <Waves size={16} />
+          {lang === 'es' ? 'Explorar escenarios' : 'Scenario studio'}
+        </Button>
+      )}
+      {!scenario && (
+        <CinematicTour
+          facilities={facilities}
+          lang={lang}
+          ready={ready && !error}
+          active={presenting}
+          onActive={setPresenting}
+          onCamera={tourCamera}
+          onStop={stopTour}
+        />
+      )}
       <div
         ref={host}
         className="map"

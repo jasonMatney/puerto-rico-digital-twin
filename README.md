@@ -217,3 +217,20 @@ source-reported open/operational or closed/not operational; it is never live tel
 The dated shelter briefing and sample remain shelter-specific references; current
 CSV exports include every mapped facility. Existing evidence requirements,
 per-account municipal scope, explicit approval and immutable history still apply.
+
+### Illustrative scenario studio
+
+Each map has a Scenario studio entry point. Today (0 m), Heavy rainfall (2.5 m)
+and Coastal surge (5 m) are named demonstration presets, not observed conditions
+or calibrated physical scenarios. The 0–8 m control changes the drawn extrusion
+height over the existing FEMA 1% annual-chance polygons. That footprint remains
+fixed; there is no rainfall/runoff, drainage, tide, connectivity or flood-depth
+calculation and no new exposure count. The interface labels these limitations.
+
+A second, noninteractive MapLibre view copies the map style without the demo
+layers and follows the primary camera. A clipped comparison divider can be moved
+by pointer, keyboard or the panel slider. Comparison allocates the second map
+only while enabled and releases it on exit. Failed comparison loading is reported
+without modifying source data. Animation respects reduced motion and pauses when
+the document is hidden. Closing the studio removes both demo layers and cancels
+animation. No review records, source geometries or approvals are changed.
