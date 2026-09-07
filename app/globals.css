@@ -873,3 +873,69 @@ h3 {
 .access-screening .small {
   margin: 10px 0;
 }
+.shelter-comparison {
+  width: calc(100vw - 32px);
+  max-width: 1120px !important;
+  max-height: 88dvh;
+  overflow-y: auto;
+  background: #0c2533;
+  color: #edf4f5;
+  border-color: #ffffff30;
+}
+.shelter-comparison [data-slot='table-container'] {
+  overflow: auto;
+}
+.shelter-comparison table {
+  min-width: 850px;
+  font-size: 14px;
+}
+.shelter-comparison th {
+  white-space: normal;
+  color: #b7f578;
+  padding: 12px;
+}
+.shelter-comparison td {
+  vertical-align: top;
+  white-space: normal;
+  padding: 12px;
+  line-height: 1.5;
+}
+.shelter-comparison th:first-child {
+  width: 25%;
+}
+.shelter-comparison th:last-child {
+  width: 30%;
+}
+.shelter-comparison td button {
+  white-space: normal;
+  text-align: left;
+  padding: 0;
+  height: auto;
+  color: #b7f578;
+  font-size: 14px;
+  justify-content: flex-start;
+}
+.comparison-status {
+  display: block;
+  color: #ffd19a;
+  font-size: 12px;
+  margin-top: 8px;
+}
+.comparison-notice {
+  font-size: 14px;
+  line-height: 1.5;
+  color: #ffd19a;
+}
+.shelter-comparison summary {
+  cursor: pointer;
+  text-decoration: underline;
+  margin-top: 8px;
+}
+.shelter-comparison details p {
+  margin: 8px 0;
+}
+.shelter-comparison details a {
+  display: block;
+  color: #b7f578;
+  margin: 6px 0;
+}

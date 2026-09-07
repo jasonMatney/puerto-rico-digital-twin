@@ -43,6 +43,7 @@ import 'maplibre-gl/dist/maplibre-gl.css';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { FacilityList, FacilityDetails, type Facility } from './facilities';
 import { AccessScreening } from './access-screening';
+import { ShelterComparison } from './shelter-comparison';
 
 type View = 'none' | 'high' | 'extended';
 type Summary = {
@@ -1016,6 +1017,17 @@ export default function Home() {
             </TabsTrigger>
           </TabsList>
           <TabsContent value="facilities">
+            <ShelterComparison
+              facilities={facilities}
+              accessData={accessData}
+              accessError={accessError}
+              ready={ready}
+              lang={lang}
+              onSelect={(f) => {
+                setCategory('shelter');
+                selectFacility(f);
+              }}
+            />
             <FacilityList
               items={facilities}
               lang={lang}
