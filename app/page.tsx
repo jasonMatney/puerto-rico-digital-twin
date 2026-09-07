@@ -44,6 +44,7 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { FacilityList, FacilityDetails, type Facility } from './facilities';
 import { AccessScreening } from './access-screening';
 import { ShelterComparison } from './shelter-comparison';
+import { VerificationWorkflow } from './verification-workflow';
 
 type View = 'none' | 'high' | 'extended';
 type Summary = {
@@ -1017,6 +1018,7 @@ export default function Home() {
             </TabsTrigger>
           </TabsList>
           <TabsContent value="facilities">
+            <VerificationWorkflow facilities={facilities} lang={lang} />
             <ShelterComparison
               facilities={facilities}
               accessData={accessData}

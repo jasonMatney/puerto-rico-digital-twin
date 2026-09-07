@@ -939,3 +939,67 @@ h3 {
   color: #b7f578;
   margin: 6px 0;
 }
+.verification-dialog {
+  width: calc(100vw - 32px);
+  max-width: 820px !important;
+  max-height: 88dvh;
+  overflow-y: auto;
+  background: #0c2533;
+  color: #edf4f5;
+  border-color: #ffffff30;
+}
+.verification-dialog label {
+  display: grid;
+  gap: 7px;
+  font-size: 14px;
+  margin: 12px 0;
+}
+.verification-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0 20px;
+}
+.verification-dialog input,
+.verification-dialog textarea {
+  font-size: 16px;
+}
+.verification-dialog a {
+  color: #b7f578;
+  text-decoration: underline;
+}
+.verification-baseline {
+  background: #ffffff09;
+  border: 1px solid #ffffff25;
+  border-radius: 10px;
+  padding: 14px;
+  font-size: 13px;
+  line-height: 1.5;
+}
+.verification-baseline a {
+  display: block;
+  margin-top: 5px;
+}
+.verification-dialog h3 {
+  margin: 18px 0 10px;
+}
+.verification-history {
+  padding: 12px 0;
+  border-bottom: 1px solid #ffffff25;
+  font-size: 14px;
+}
+.verification-history summary {
+  cursor: pointer;
+  color: #b7f578;
+}
+.verification-history p {
+  margin: 8px 0;
+  white-space: pre-wrap;
+}
+.verification-dialog [role='alert'] {
+  color: #ffbc98;
+}
+@media (max-width: 600px) {
+  .verification-grid {
+    grid-template-columns: 1fr;
+  }
+}
