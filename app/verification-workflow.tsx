@@ -1,6 +1,7 @@
 'use client';
 import { useEffect, useState } from 'react';
 import { PublishReview } from './publish-review';
+import { ReviewQueue } from './review-queue';
 import type { Facility } from './facilities';
 import type { Verification, SavedVerification } from '@/lib/verification';
 import { Button } from '@/components/ui/button';
@@ -144,6 +145,16 @@ export function VerificationWorkflow({
   }
   return (
     <>
+      <ReviewQueue
+        facilities={facilities}
+        lang={lang}
+        onSelect={(id) => {
+          setForm(blank(id));
+          setSaved(false);
+          setError('');
+          setOpen(true);
+        }}
+      />
       <Button variant="outline" onClick={() => setOpen(true)}>
         {es ? 'Verificar registros' : 'Verify records'}
       </Button>

@@ -1030,3 +1030,24 @@ h3 {
   align-items: center;
   gap: 12px;
 }
+.review-queue a {
+  color: #b7f578;
+  text-decoration: underline;
+}
+.review-queue td p {
+  margin: 6px 0;
+}
+.review-queue ul {
+  padding-left: 16px;
+  list-style: disc;
+}
+.review-queue th:first-child {
+  width: 22%;
+}
+.review-queue th:last-child {
+  width: 25%;
+}
+.review-queue summary {
+  cursor: pointer;
+  color: #b7f578;
+}
