@@ -41,7 +41,9 @@ export function ShelterComparison({
   return (
     <>
       <Button variant="outline" onClick={() => setOpen(true)}>
-        {es ? 'Comparar 12 refugios' : 'Compare 12 shelters'}
+        {es
+          ? `Comparar ${shelters.length} refugios`
+          : `Compare ${shelters.length} shelters`}
       </Button>
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent className="shelter-comparison">

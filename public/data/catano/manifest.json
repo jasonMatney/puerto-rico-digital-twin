@@ -1,0 +1,41 @@
+{
+  "retrievedAt": "2026-09-07T04:39:23.059Z",
+  "bbox": [
+    -66.17015800026537,
+    18.42157999998607,
+    -66.10828099965286,
+    18.46563199961719
+  ],
+  "boundary": {
+    "url": "https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/State_County/MapServer/1",
+    "count": 1,
+    "properties": {
+      "GEOID": "72033",
+      "NAME": "Cataño Municipio",
+      "AREALAND": 12513251,
+      "AREAWATER": 5621422
+    }
+  },
+  "flood": {
+    "url": "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/28",
+    "count": 60,
+    "zones": [
+      "AE",
+      "VE",
+      "A",
+      "X"
+    ],
+    "note": "FEMA NFHL mapped flood hazard zones intersecting municipal bounding box; not Hurricane Maria observed inundation."
+  },
+  "mapFeatures": {
+    "tilejson": "https://tiles.openfreemap.org/planet",
+    "tileTemplate": "https://tiles.openfreemap.org/planet/20260830_080001_pt/{z}/{x}/{y}.pbf",
+    "retrievedAt": "2026-09-07T04:39:47.002Z",
+    "zoom": 14,
+    "tiles": 12,
+    "buildings": 9915,
+    "roadSegments": 224,
+    "license": "© OpenStreetMap contributors, ODbL 1.0",
+    "method": "Building geometries intersecting Census boundary; same vector feature IDs unioned across tiles. Roads are tile segments, not unique roads. Coverage and rendering heights are not survey verified. Merged multipolygons split into individual footprint polygons, then filtered against municipal boundary; IDs are snapshot-specific, not cadastral IDs."
+  }
+}

@@ -1,9 +1,10 @@
+const dataDir = process.env.DATA_DIR || 'public/data';
 import fs from 'node:fs/promises';
 import bbox from '@turf/bbox';
 import intersect from '@turf/intersect';
 import booleanIntersects from '@turf/boolean-intersects';
 const read = async (n) =>
-  JSON.parse(await fs.readFile('public/data/' + n + '.geojson', 'utf8'));
+  JSON.parse(await fs.readFile(dataDir + '/' + n + '.geojson', 'utf8'));
 const boundary = (await read('boundary')).features[0];
 const flood = await read('flood');
 const zones = [];
@@ -18,7 +19,7 @@ for (const f of flood.features) {
   }
 }
 const features = { type: 'FeatureCollection', features: zones };
-await fs.writeFile('public/data/flood.geojson', JSON.stringify(features));
+await fs.writeFile(dataDir + '/flood.geojson', JSON.stringify(features));
 const high = zones.filter((f) => f.properties.SFHA_TF === 'T');
 const moderate = zones.filter((f) =>
   String(f.properties.ZONE_SUBTY).includes('0.2 PCT'),
@@ -72,9 +73,6 @@ for (const [name, data] of [
   ['buildings', buildings],
   ['roads', roads],
 ])
-  await fs.writeFile('public/data/' + name + '.geojson', JSON.stringify(data));
-await fs.writeFile(
-  'public/data/summary.json',
-  JSON.stringify(summary, null, 2),
-);
+  await fs.writeFile(dataDir + '/' + name + '.geojson', JSON.stringify(data));
+await fs.writeFile(dataDir + '/summary.json', JSON.stringify(summary, null, 2));
 console.log(summary);

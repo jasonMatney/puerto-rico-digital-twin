@@ -13,10 +13,10 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'Toa Baja Digital Twin | Puerto Rico',
+  title: 'Puerto Rico Digital Twin | Municipal Workspaces',
   icons: { icon: '/favicon.svg' },
   description:
-    'Explore Toa Baja terrain, buildings and documented flood exposure. An independent geospatial research prototype.',
+    'Explore municipal terrain, buildings and documented flood exposure in Toa Baja and Cataño. An independent geospatial research prototype.',
 };
 
 export default function RootLayout({

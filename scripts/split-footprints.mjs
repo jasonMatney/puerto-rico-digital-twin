@@ -1,10 +1,9 @@
+const dataDir = process.env.DATA_DIR || 'public/data';
 import fs from 'node:fs/promises';
 import booleanIntersects from '@turf/boolean-intersects';
-const b = JSON.parse(
-  await fs.readFile('public/data/buildings.geojson', 'utf8'),
-);
+const b = JSON.parse(await fs.readFile(dataDir + '/buildings.geojson', 'utf8'));
 const boundary = JSON.parse(
-  await fs.readFile('public/data/boundary.geojson', 'utf8'),
+  await fs.readFile(dataDir + '/boundary.geojson', 'utf8'),
 ).features[0];
 const features = [];
 for (const f of b.features) {
@@ -22,12 +21,12 @@ for (const f of b.features) {
   }
 }
 await fs.writeFile(
-  'public/data/buildings.geojson',
+  dataDir + '/buildings.geojson',
   JSON.stringify({ type: 'FeatureCollection', features }),
 );
-const m = JSON.parse(await fs.readFile('public/data/manifest.json', 'utf8'));
+const m = JSON.parse(await fs.readFile(dataDir + '/manifest.json', 'utf8'));
 m.mapFeatures.buildings = features.length;
 m.mapFeatures.method +=
   ' Merged multipolygons split into individual footprint polygons, then filtered against municipal boundary; IDs are snapshot-specific, not cadastral IDs.';
-await fs.writeFile('public/data/manifest.json', JSON.stringify(m, null, 2));
+await fs.writeFile(dataDir + '/manifest.json', JSON.stringify(m, null, 2));
 console.log('Footprints:', features.length);

@@ -1,4 +1,5 @@
 'use client';
+import { useMunicipality } from './municipality-context';
 import { useEffect, useState } from 'react';
 import { PublishReview } from './publish-review';
 import { ReviewQueue } from './review-queue';
@@ -43,6 +44,7 @@ export function VerificationWorkflow({
   facilities: Facility[];
   lang: 'en' | 'es';
 }) {
+  const municipality = useMunicipality();
   const es = lang === 'es',
     [open, setOpen] = useState(false),
     [form, setForm] = useState<Verification>(blank('shelter-3')),
@@ -60,7 +62,7 @@ export function VerificationWorkflow({
     const controller = new AbortController();
     setLoading(true);
     setLoadError('');
-    fetch('/api/verifications', { signal: controller.signal })
+    fetch(municipality.api('/api/verifications'), { signal: controller.signal })
       .then(async (r) => {
         const d = (await r.json()) as {
           reviews: SavedVerification[];
@@ -126,7 +128,7 @@ export function VerificationWorkflow({
     setError('');
     setSaved(false);
     try {
-      const r = await fetch('/api/verifications', {
+      const r = await fetch(municipality.api('/api/verifications'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(form),
@@ -227,29 +229,34 @@ export function VerificationWorkflow({
               ))}
             </div>
           )}
-          <Button
-            variant="outline"
-            disabled={saving}
-            onClick={async () => {
-              setSaving(true);
-              setError('');
-              try {
-                const r = await fetch('/api/verifications/research', {
-                  method: 'POST',
-                });
-                if (!r.ok) throw new Error('Could not save desk reviews');
-                setReload((n) => n + 1);
-              } catch (e) {
-                setError(e instanceof Error ? e.message : 'Save failed');
-              } finally {
-                setSaving(false);
-              }
-            }}
-          >
-            {es
-              ? 'Guardar las dos revisiones documentales del 7 sep.'
-              : 'Save the two September 7 desk reviews'}
-          </Button>
+          {municipality.slug === 'toa-baja' && (
+            <Button
+              variant="outline"
+              disabled={saving}
+              onClick={async () => {
+                setSaving(true);
+                setError('');
+                try {
+                  const r = await fetch(
+                    municipality.api('/api/verifications/research'),
+                    {
+                      method: 'POST',
+                    },
+                  );
+                  if (!r.ok) throw new Error('Could not save desk reviews');
+                  setReload((n) => n + 1);
+                } catch (e) {
+                  setError(e instanceof Error ? e.message : 'Save failed');
+                } finally {
+                  setSaving(false);
+                }
+              }}
+            >
+              {es
+                ? 'Guardar las dos revisiones documentales del 7 sep.'
+                : 'Save the two September 7 desk reviews'}
+            </Button>
+          )}
           <form onSubmit={save}>
             <fieldset disabled={saving || loading || !!loadError || !selected}>
               <div className="verification-grid">

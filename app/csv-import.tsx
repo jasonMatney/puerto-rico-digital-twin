@@ -1,4 +1,5 @@
 'use client';
+import { useMunicipality } from './municipality-context';
 import { useState } from 'react';
 import { previewImport, type ImportPreview } from '@/lib/csv-import';
 import type { Facility } from './facilities';
@@ -25,6 +26,7 @@ export function CsvImport({
   facilities: Facility[];
   lang: 'en' | 'es';
 }) {
+  const municipality = useMunicipality();
   const es = lang === 'es',
     [open, setOpen] = useState(false),
     [csv, setCsv] = useState(''),
@@ -43,7 +45,7 @@ export function CsvImport({
       if (file.size > 524288) throw new Error('Maximum file size: 512 KB');
       const text = await file.text();
       setCsv(text);
-      setPreview(previewImport(text));
+      setPreview(previewImport(text, municipality.slug));
     } catch (e) {
       setError(e instanceof Error ? e.message : 'Read failed');
     } finally {
@@ -54,7 +56,7 @@ export function CsvImport({
     setBusy(true);
     setError('');
     try {
-      const r = await fetch('/api/verifications/import', {
+      const r = await fetch(municipality.api('/api/verifications/import'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ csv, confirm: true }),
@@ -93,11 +95,16 @@ export function CsvImport({
               ? 'Seleccione el CSV de respuesta con los encabezados originales. Se guardan revisiones propuestas, nunca aprobaciones ni cambios directos al mapa.'
               : 'Select the response CSV with its original headers. Imports save proposed reviews, never approvals or direct map changes.'}
           </DialogDescription>
-          <a href="/validation/toa-baja-ejemplo-solo-vista-previa.csv" download>
-            {es
-              ? 'Descargar ejemplo sintético (solo vista previa)'
-              : 'Download synthetic sample (preview only)'}
-          </a>
+          {municipality.slug === 'toa-baja' && (
+            <a
+              href="/validation/toa-baja-ejemplo-solo-vista-previa.csv"
+              download
+            >
+              {es
+                ? 'Descargar ejemplo sintético (solo vista previa)'
+                : 'Download synthetic sample (preview only)'}
+            </a>
+          )}
           <label>
             {es ? 'Archivo CSV (máximo 512 KB)' : 'CSV file (maximum 512 KB)'}
             <Input

@@ -1,5 +1,9 @@
 import fs from 'node:fs/promises';
-const out = new URL('../public/data/', import.meta.url);
+const out = new URL(
+  '../' + (process.env.DATA_DIR || 'public/data') + '/',
+  import.meta.url,
+);
+await fs.mkdir(out, { recursive: true });
 const boundaryService =
   'https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/State_County/MapServer/1';
 const floodService =
@@ -12,7 +16,7 @@ async function query(url, params) {
   return d;
 }
 const boundary = await query(boundaryService, {
-  where: "GEOID='72137'",
+  where: `GEOID='${process.env.MUNICIPIO_GEOID || '72137'}'`,
   outFields: 'GEOID,NAME,AREALAND,AREAWATER',
   outSR: '4326',
   f: 'geojson',

@@ -132,3 +132,42 @@ A standalone original-inventory CSV is also included under `public/validation/`;
 The server repeats validation and requires the authenticated account and a same-origin request. The entire import must be valid before a transactional D1 batch is saved. Canonical review payloads are hashed for repeat-import idempotency and compared against existing same-account payloads. Imported responses remain unpublished reviews; no import calls the publication API or changes the effective inventory.
 
 `public/validation/toa-baja-ejemplo-solo-vista-previa.csv` contains one explicitly synthetic response and eleven blank response rows. It is offered for preview only; the app and server prohibit saving rows whose reviewer begins with SAMPLE. The sample supplies no municipal evidence. `node --experimental-strip-types scripts/validate-csv-import.mjs` exercises parsing and validation. Local API tests verified sample rejection, explicit confirmation, persistence, duplicate skipping and unchanged map data; local test records were removed.
+
+## Multiple municipal workspaces
+
+The root route is an explanatory landing page. `/municipios` and
+`/municipios/[municipio]` require dispatch-owned ChatGPT sign-in. The existing
+Sites access policy still applies before the application; a private Site can
+require sign-in before the landing page. No public access or external login
+provider is configured by this update.
+
+Toa Baja retains its original data and saved records. Cataño (`72033`) has its
+own Census boundary, FEMA polygons, OpenFreeMap buildings and roads, plus two
+PRDOH 2026 designated shelters. Coordinates are the place coordinates in the
+Google Maps links supplied by the official list, retrieved September 7, 2026;
+they are not field verified. Cataño has no inventory of other facility types yet.
+`public/data/catano/manifest.json` records geographic sources and retrieval.
+`scripts/build-catano-facilities.mjs` records shelter provenance and coordinates.
+
+Map, comparison, screening, reviews, CSV response export/import and publication
+use shared components with a municipality context. API requests validate a
+municipality allowlist. To preserve historical records without a migration,
+Toa Baja keeps the original D1 owner key; Cataño uses a JSON tuple of the
+platform-authenticated owner and municipality. The same scoped key is applied
+to every review/publication query, insert, duplicate check and approval.
+Shelter IDs are additionally distinct (`catano-shelter-*`), so a CSV from one
+municipality is rejected in the other. Review records remain per-account,
+not shared municipal approvals. No field confirmation is implied.
+
+Refresh Cataño geographic inputs in order with `DATA_DIR=public/data/catano`:
+`MUNICIPIO_GEOID=72033 node scripts/fetch-data.mjs`, then
+`node scripts/fetch-map-features.mjs`, `node scripts/split-footprints.mjs`,
+`node scripts/analyze.mjs`. Run `node scripts/build-catano-facilities.mjs`, then
+`DATA_DIR=public/data/catano node scripts/build-access.mjs`.
+Without these environment variables the original Toa Baja refresh is unchanged.
+
+`node scripts/validate-municipalities.mjs` checks geographic coverage, counts,
+source-backed shelter points, scope separation and cross-municipality CSV
+rejection. The Cataño validation briefing is a printable page at
+`/municipios/catano/briefing`; response sheets are generated from loaded records.
+The Toa Baja PDF and preview-only sample remain specific to Toa Baja.

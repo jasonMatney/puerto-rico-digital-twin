@@ -1,3 +1,4 @@
+import { municipalities, type Municipio } from './municipalities.ts';
 export type Verification = {
   shelterId: string;
   reviewer: string;
@@ -17,7 +18,10 @@ export type SavedVerification = Verification & {
   id: string;
   createdAt: string;
 };
-export function validateVerification(input: unknown): Verification {
+export function validateVerification(
+  input: unknown,
+  municipio: Municipio = 'toa-baja',
+): Verification {
   if (!input || typeof input !== 'object' || Array.isArray(input))
     throw new Error('Invalid review');
   const v = input as Record<string, unknown>;
@@ -32,7 +36,7 @@ export function validateVerification(input: unknown): Verification {
     return v[key] as T;
   };
   const shelterId = text('shelterId', 30, true);
-  if (!/^shelter-([1-9]|1[0-2])$/.test(shelterId))
+  if (!municipalities[municipio].shelterIds.includes(shelterId))
     throw new Error('Unknown shelter');
   const asOf = text('asOf', 10, true);
   if (

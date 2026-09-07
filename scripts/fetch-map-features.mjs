@@ -1,13 +1,14 @@
+const dataDir = process.env.DATA_DIR || 'public/data';
 import fs from 'node:fs/promises';
 import { VectorTile } from '@mapbox/vector-tile';
 import { PbfReader as Pbf } from 'pbf';
 import booleanIntersects from '@turf/boolean-intersects';
 import union from '@turf/union';
 const manifest = JSON.parse(
-  await fs.readFile('public/data/manifest.json', 'utf8'),
+  await fs.readFile(dataDir + '/manifest.json', 'utf8'),
 );
 const boundary = JSON.parse(
-  await fs.readFile('public/data/boundary.geojson', 'utf8'),
+  await fs.readFile(dataDir + '/boundary.geojson', 'utf8'),
 ).features[0];
 const tj = await (await fetch('https://tiles.openfreemap.org/planet')).json();
 const template = tj.tiles[0];
@@ -84,14 +85,14 @@ async function worker() {
 }
 await Promise.all([worker(), worker(), worker(), worker()]);
 await fs.writeFile(
-  'public/data/buildings.geojson',
+  dataDir + '/buildings.geojson',
   JSON.stringify({
     type: 'FeatureCollection',
     features: [...buildings.values()],
   }),
 );
 await fs.writeFile(
-  'public/data/roads.geojson',
+  dataDir + '/roads.geojson',
   JSON.stringify({ type: 'FeatureCollection', features: roads }),
 );
 manifest.mapFeatures = {
@@ -107,7 +108,7 @@ manifest.mapFeatures = {
     'Building geometries intersecting Census boundary; same vector feature IDs unioned across tiles. Roads are tile segments, not unique roads. Coverage and rendering heights are not survey verified.',
 };
 await fs.writeFile(
-  'public/data/manifest.json',
+  dataDir + '/manifest.json',
   JSON.stringify(manifest, null, 2),
 );
 console.log(manifest.mapFeatures);

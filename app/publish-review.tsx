@@ -1,4 +1,5 @@
 'use client';
+import { useMunicipality } from './municipality-context';
 import { useState } from 'react';
 import type { Facility } from './facilities';
 import { Button } from '@/components/ui/button';
@@ -25,6 +26,7 @@ export function PublishReview({
   reviewId: string;
   lang: 'en' | 'es';
 }) {
+  const municipality = useMunicipality();
   const es = lang === 'es',
     [preview, setPreview] = useState<Preview | null>(null),
     [approved, setApproved] = useState(false),
@@ -36,7 +38,9 @@ export function PublishReview({
     setApproved(false);
     try {
       const r = await fetch(
-        '/api/publications?reviewId=' + encodeURIComponent(reviewId),
+        municipality.api(
+          '/api/publications?reviewId=' + encodeURIComponent(reviewId),
+        ),
       );
       const d = (await r.json()) as Preview & { error?: string };
       if (!r.ok) throw new Error(d.error);
@@ -52,7 +56,7 @@ export function PublishReview({
     setBusy(true);
     setError('');
     try {
-      const r = await fetch('/api/publications', {
+      const r = await fetch(municipality.api('/api/publications'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

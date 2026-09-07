@@ -1061,3 +1061,196 @@ h3 {
 .packet-downloads a {
   font-size: 14px;
 }
+
+.welcome {
+  min-height: 100dvh;
+  max-width: 1440px;
+  margin: auto;
+  padding: 2rem 6%;
+  background: radial-gradient(ellipse at 100% 20%, #21495766, transparent 55%);
+}
+.welcome header {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: center;
+  font-size: 0.875rem;
+  color: var(--muted-foreground);
+}
+.welcome-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: var(--foreground);
+  text-decoration: none;
+  letter-spacing: 0.08em;
+  font-size: 0.875rem;
+}
+.welcome-hero {
+  padding: 5rem 0 3rem;
+  max-width: 950px;
+}
+.welcome-hero h1 {
+  font-size: clamp(2.8rem, 6.2vw, 5.8rem);
+  line-height: 1.04;
+  letter-spacing: -0.055em;
+  margin: 1.4rem 0 2rem;
+  font-weight: 550;
+}
+.welcome-hero em {
+  color: var(--primary);
+  font-style: normal;
+}
+.welcome-hero > p:not(.eyebrow) {
+  max-width: 680px;
+  line-height: 1.7;
+  font-size: 1.125rem;
+  color: var(--muted-foreground);
+}
+.welcome-cta {
+  display: inline-flex;
+  gap: 2rem;
+  align-items: center;
+  background: var(--primary);
+  color: var(--primary-foreground);
+  padding: 1.1rem 1.5rem;
+  border-radius: 0.4rem;
+  text-decoration: none;
+  font-weight: 600;
+  margin: 1.5rem 0 0.2rem;
+}
+.welcome-hero .welcome-note {
+  font-size: 0.875rem !important;
+}
+.welcome-details {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  border-top: 1px solid var(--border);
+  padding: 2rem 0;
+}
+.welcome-details span {
+  font-size: 0.875rem;
+  color: var(--primary);
+}
+.welcome-details h2 {
+  font-size: 1.2rem;
+  margin: 1rem 0;
+}
+.welcome-details p {
+  color: var(--muted-foreground);
+  line-height: 1.6;
+  font-size: 1rem;
+}
+.welcome footer {
+  border-top: 1px solid var(--border);
+  padding: 1.5rem 0;
+  font-size: 0.875rem;
+  line-height: 1.6;
+  color: var(--muted-foreground);
+}
+@media (max-width: 700px) {
+  .welcome {
+    padding: 1.3rem 6%;
+  }
+  .welcome header {
+    flex-wrap: wrap;
+  }
+  .welcome-hero {
+    padding-top: 3rem;
+  }
+  .welcome-details {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+}
+
+.municipality-cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin-bottom: 3rem;
+}
+.municipality-card {
+  padding: 2rem;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 0.7rem;
+  color: var(--foreground);
+  text-decoration: none;
+}
+.municipality-card:hover {
+  border-color: var(--primary);
+}
+.municipality-card h2 {
+  font-size: 2.5rem;
+  margin: 1rem 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.municipality-card p {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--muted-foreground);
+}
+.municipality-card strong {
+  display: block;
+  margin-top: 2rem;
+  color: var(--primary);
+}
+.municipality-back {
+  font-size: 0.875rem;
+  color: var(--primary);
+  text-decoration: none;
+}
+@media (max-width: 700px) {
+  .municipality-cards {
+    grid-template-columns: 1fr;
+  }
+  .municipality-card {
+    padding: 1.4rem;
+  }
+  .header-actions {
+    flex-wrap: wrap;
+  }
+}
+
+.briefing h2 {
+  font-size: 1.4rem;
+  margin: 1.5rem 0 0.8rem;
+}
+.briefing p,
+.briefing li {
+  font-size: 1rem;
+  line-height: 1.65;
+}
+.briefing ol {
+  list-style: decimal;
+  padding-left: 1.5rem;
+}
+.briefing article {
+  border-top: 1px solid var(--border);
+  padding: 1rem 0;
+  break-inside: avoid;
+}
+.briefing a {
+  color: var(--primary);
+}
+@media print {
+  .briefing {
+    background: white;
+    color: black;
+  }
+  .briefing p,
+  .briefing a,
+  .briefing footer {
+    color: black !important;
+  }
+  .briefing .welcome-hero {
+    padding: 1rem 0;
+  }
+  .briefing h1 {
+    font-size: 2rem;
+  }
+}

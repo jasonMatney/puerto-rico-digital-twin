@@ -1,7 +1,14 @@
+import { scopedOwner, requestMunicipio } from '@/lib/municipalities';
 import { database } from '@/db/client';
 import { previewImport } from '@/lib/csv-import';
 export async function POST(request: Request) {
-  const owner = request.headers.get('oai-authenticated-user-id');
+  let owner: string | null;
+  try {
+    owner = scopedOwner(request);
+    requestMunicipio(request);
+  } catch {
+    return Response.json({ error: 'Unknown municipality' }, { status: 400 });
+  }
   if (!owner)
     return Response.json({ error: 'Sign in required' }, { status: 401 });
   if (request.headers.get('origin') !== new URL(request.url).origin)
@@ -14,7 +21,7 @@ export async function POST(request: Request) {
     const body = JSON.parse(raw);
     if (body.confirm !== true || typeof body.csv !== 'string')
       throw new Error('Preview and confirm the CSV first');
-    const p = previewImport(body.csv);
+    const p = previewImport(body.csv, requestMunicipio(request));
     if (p.errors.length || !p.reviews.length || p.sample)
       return Response.json(
         {

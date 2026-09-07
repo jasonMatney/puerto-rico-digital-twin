@@ -1,4 +1,5 @@
 'use client';
+import { useMunicipality } from './municipality-context';
 import type { Feature, Point } from 'geojson';
 import { Button } from '@/components/ui/button';
 import {
@@ -53,6 +54,7 @@ export function FacilityList({
   ready: boolean;
   view: string;
 }) {
+  const municipality = useMunicipality();
   const es = lang === 'es',
     visible = items.filter(
       (f) => category === 'all' || f.properties.kind === category,
@@ -67,8 +69,8 @@ export function FacilityList({
       <h3>{es ? 'Infraestructura esencial' : 'Essential facilities'}</h3>
       <p className="small">
         {es
-          ? '31 ubicaciones documentadas · 12 refugios designados en 2026. Estado operativo según fuente o sin confirmar.'
-          : '31 documented locations · 12 designated 2026 shelters. Operating status is source-reported or unconfirmed.'}
+          ? `${items.length} ubicaciones documentadas · ${items.filter((f) => f.properties.kind === 'shelter').length} refugios designados en 2026. Estado operativo según fuente o sin confirmar.`
+          : `${items.length} documented locations · ${items.filter((f) => f.properties.kind === 'shelter').length} designated 2026 shelters. Operating status is source-reported or unconfirmed.`}
       </p>
       <p className="small">
         {es
@@ -125,7 +127,11 @@ export function FacilityList({
           ? 'Los anillos naranjas indican puntos en zonas seleccionadas. La exposición corresponde al punto, no al edificio completo ni al acceso.'
           : 'Orange rings mark points in selected flood zones. Exposure describes the point, not the whole building or access.'}
       </p>
-      <a className="small" href="/data/facilities.geojson" download>
+      <a
+        className="small"
+        href={municipality.dataPath + '/facilities.geojson'}
+        download
+      >
         {es
           ? 'Descargar inventario original'
           : 'Download original source inventory'}{' '}
@@ -141,6 +147,7 @@ export function FacilityDetails({
   facility: Facility;
   lang: 'en' | 'es';
 }) {
+  const municipality = useMunicipality();
   const p = facility.properties,
     es = lang === 'es';
   return (

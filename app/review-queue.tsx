@@ -1,4 +1,5 @@
 'use client';
+import { useMunicipality } from './municipality-context';
 import { useEffect, useState } from 'react';
 import type { Facility } from './facilities';
 import type { SavedVerification } from '@/lib/verification';
@@ -35,6 +36,7 @@ export function ReviewQueue({
   lang: 'en' | 'es';
   onSelect: (id: string) => void;
 }) {
+  const municipality = useMunicipality();
   const es = lang === 'es',
     [open, setOpen] = useState(false),
     [reviews, setReviews] = useState<SavedVerification[]>([]),
@@ -50,7 +52,7 @@ export function ReviewQueue({
     setError('');
     Promise.all(
       ['/api/verifications', '/api/publications'].map((url) =>
-        fetch(url, { signal: c.signal }).then(async (r) => {
+        fetch(municipality.api(url), { signal: c.signal }).then(async (r) => {
           if (!r.ok)
             throw new Error(
               es ? 'No se pudo cargar la cola.' : 'The queue could not load.',
@@ -85,7 +87,7 @@ export function ReviewQueue({
     const url = URL.createObjectURL(blob),
       a = document.createElement('a');
     a.href = url;
-    a.download = 'toa-baja-respuesta-municipal.csv';
+    a.download = municipality.slug + '-respuesta-municipal.csv';
     a.click();
     setTimeout(() => URL.revokeObjectURL(url), 1000);
   }
@@ -163,14 +165,20 @@ export function ReviewQueue({
           </DialogTitle>
           <DialogDescription>
             {es
-              ? 'Seguimiento de evidencia para los 12 refugios. Abrir un registro no aprueba ni publica cambios.'
-              : 'Evidence follow-up for all 12 shelters. Opening a record does not approve or publish changes.'}
+              ? 'Seguimiento de evidencia para los refugios de este municipio. Abrir un registro no aprueba ni publica cambios.'
+              : 'Evidence follow-up for the shelters in this municipality. Opening a record does not approve or publish changes.'}
           </DialogDescription>
           <div className="packet-downloads">
-            <a href="/validation/toa-baja-validacion-municipal.pdf" download>
-              {es
-                ? 'Descargar guía PDF (7 sep. 2026)'
-                : 'Download PDF briefing (Sep 7, 2026)'}
+            <a
+              href={
+                municipality.slug === 'toa-baja'
+                  ? '/validation/toa-baja-validacion-municipal.pdf'
+                  : '/municipios/catano/briefing'
+              }
+              target="_blank"
+              rel="noreferrer"
+            >
+              {es ? 'Abrir guía de validación' : 'Open validation briefing'}
             </a>
             <Button
               variant="outline"
@@ -184,8 +192,8 @@ export function ReviewQueue({
           </div>
           <p className="small">
             {es
-              ? 'PDF: inventario original fechado. CSV: registros y revisiones cargados en esta cola, con respuestas vacías. No se envía a terceros ni se importa automáticamente.'
-              : 'PDF: dated original inventory. CSV: records and reviews loaded in this queue, with blank response fields. Nothing is sent to third parties or imported automatically.'}
+              ? 'Guía: inventario original fechado. CSV: registros y revisiones cargados en esta cola, con respuestas vacías. No se envía a terceros ni se importa automáticamente.'
+              : 'Briefing: dated original inventory. CSV: records and reviews loaded in this queue, with blank response fields. Nothing is sent to third parties or imported automatically.'}
           </p>
           {loading ? (
             <p role="status">

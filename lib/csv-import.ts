@@ -1,3 +1,4 @@
+import { municipalities, type Municipio } from './municipalities.ts';
 import { validateVerification, type Verification } from './verification.ts';
 export const responseHeaders = [
   'nombre_confirmado_respuesta',
@@ -66,7 +67,10 @@ export type ImportPreview = {
   skipped: number;
   sample: boolean;
 };
-export function previewImport(csv: string): ImportPreview {
+export function previewImport(
+  csv: string,
+  municipio: Municipio = 'toa-baja',
+): ImportPreview {
   const rows = parseCsv(csv);
   if (!rows.length) throw new Error('CSV is empty.');
   const header = rows[0].map((s) => s.trim());
@@ -88,7 +92,7 @@ export function previewImport(csv: string): ImportPreview {
         throw new Error('Column count does not match header.');
       const get = (h: string) => cells[header.indexOf(h)].trim(),
         id = get('id_refugio');
-      if (!/^shelter-([1-9]|1[0-2])$/.test(id))
+      if (!municipalities[municipio].shelterIds.includes(id))
         throw new Error('Unknown shelter ID: ' + id);
       if (seen.has(id)) throw new Error('Duplicate shelter ID: ' + id);
       seen.add(id);
@@ -119,30 +123,37 @@ export function previewImport(csv: string): ImportPreview {
         no: 'discrepancy',
         pendiente: 'unconfirmed',
       };
-      const review = validateVerification({
-        shelterId: id,
-        proposedName: get(responseHeaders[0]),
-        nameCheck: choice(responseHeaders[1], confirmation, 'unconfirmed'),
-        latitude: numeric(responseHeaders[2]),
-        longitude: numeric(responseHeaders[3]),
-        locationCheck: choice(responseHeaders[4], confirmation, 'unconfirmed'),
-        operatingStatus: choice(
-          responseHeaders[5],
-          {
-            abierto: 'open',
-            cerrado: 'closed',
-            espera: 'standby',
-            desconocido: 'unknown',
-          },
-          'unknown',
-        ),
-        capacity: numeric(responseHeaders[6]),
-        asOf: get(responseHeaders[7]),
-        reviewer: get(responseHeaders[8]),
-        sourceTitle: get(responseHeaders[9]),
-        sourceUrl: get(responseHeaders[10]),
-        questions: get(responseHeaders[11]),
-      });
+      const review = validateVerification(
+        {
+          shelterId: id,
+          proposedName: get(responseHeaders[0]),
+          nameCheck: choice(responseHeaders[1], confirmation, 'unconfirmed'),
+          latitude: numeric(responseHeaders[2]),
+          longitude: numeric(responseHeaders[3]),
+          locationCheck: choice(
+            responseHeaders[4],
+            confirmation,
+            'unconfirmed',
+          ),
+          operatingStatus: choice(
+            responseHeaders[5],
+            {
+              abierto: 'open',
+              cerrado: 'closed',
+              espera: 'standby',
+              desconocido: 'unknown',
+            },
+            'unknown',
+          ),
+          capacity: numeric(responseHeaders[6]),
+          asOf: get(responseHeaders[7]),
+          reviewer: get(responseHeaders[8]),
+          sourceTitle: get(responseHeaders[9]),
+          sourceUrl: get(responseHeaders[10]),
+          questions: get(responseHeaders[11]),
+        },
+        municipio,
+      );
       if (/^SAMPLE\b/i.test(review.reviewer)) result.sample = true;
       result.reviews.push({ row, review });
     } catch (e) {

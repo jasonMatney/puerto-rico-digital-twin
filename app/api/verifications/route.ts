@@ -1,3 +1,4 @@
+import { scopedOwner, requestMunicipio } from '@/lib/municipalities';
 import { database } from '@/db/client';
 import { validateVerification } from '@/lib/verification';
 export const dynamic = 'force-dynamic';
@@ -7,7 +8,13 @@ const response = (body: unknown, status = 200) =>
     headers: { 'Cache-Control': 'private, no-store' },
   });
 export async function GET(request: Request) {
-  const owner = request.headers.get('oai-authenticated-user-id');
+  let owner: string | null;
+  try {
+    owner = scopedOwner(request);
+    requestMunicipio(request);
+  } catch {
+    return Response.json({ error: 'Unknown municipality' }, { status: 400 });
+  }
   if (!owner)
     return response({ error: 'Sign in to use verification records.' }, 401);
   try {
@@ -32,7 +39,13 @@ export async function GET(request: Request) {
   }
 }
 export async function POST(request: Request) {
-  const owner = request.headers.get('oai-authenticated-user-id');
+  let owner: string | null;
+  try {
+    owner = scopedOwner(request);
+    requestMunicipio(request);
+  } catch {
+    return Response.json({ error: 'Unknown municipality' }, { status: 400 });
+  }
   if (!owner)
     return response({ error: 'Sign in to save a verification record.' }, 401);
   if (request.headers.get('origin') !== new URL(request.url).origin)
@@ -44,7 +57,7 @@ export async function POST(request: Request) {
     const raw = await request.text();
     if (raw.length > 16000)
       return response({ error: 'Review is too large.' }, 413);
-    review = validateVerification(JSON.parse(raw));
+    review = validateVerification(JSON.parse(raw), requestMunicipio(request));
   } catch (e) {
     return response(
       { error: e instanceof Error ? e.message : 'Invalid review.' },

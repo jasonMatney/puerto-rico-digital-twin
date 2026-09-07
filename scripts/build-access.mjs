@@ -1,8 +1,9 @@
+const dataDir = process.env.DATA_DIR || 'public/data';
 import fs from 'node:fs/promises';
 import intersects from '@turf/boolean-intersects';
 import { clipRoad, radiusRing } from './access-geometry.mjs';
 const read = async (n) =>
-  JSON.parse(await fs.readFile('public/data/' + n, 'utf8'));
+  JSON.parse(await fs.readFile(dataDir + '/' + n, 'utf8'));
 const [facilities, roads, flood] = await Promise.all(
   ['facilities.geojson', 'roads.geojson', 'flood.geojson'].map(read),
 );
@@ -44,9 +45,9 @@ for (const shelter of facilities.features.filter(
   }
 }
 await fs.writeFile(
-  'public/data/access.geojson',
+  dataDir + '/access.geojson',
   JSON.stringify({ type: 'FeatureCollection', features }) + '\n',
 );
 console.log(
-  `Access screening: ${features.filter((f) => f.properties.kind === 'road').length} shelter/road records, 12 radius boundaries.`,
+  `Access screening: ${features.filter((f) => f.properties.kind === 'road').length} shelter/road records, ${facilities.features.filter((f) => f.properties.kind === 'shelter').length} radius boundaries.`,
 );

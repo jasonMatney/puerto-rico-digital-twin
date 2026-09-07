@@ -1,3 +1,5 @@
+import { scopedOwner, requestMunicipio } from '@/lib/municipalities';
+import type { Municipio } from '@/lib/municipalities';
 import { database } from '@/db/client';
 import {
   publicationRows,
@@ -11,32 +13,38 @@ const response = (body: unknown, status = 200) =>
     status,
     headers: { 'Cache-Control': 'private, no-store' },
   });
-async function preview(owner: string, reviewId: string) {
+async function preview(owner: string, reviewId: string, municipio: Municipio) {
   const row = await database()
     .prepare('SELECT payload FROM verifications WHERE id=? AND owner_id=?')
     .bind(reviewId, owner)
     .first<{ payload: string }>();
   if (!row) throw new Error('Review not found');
-  const review = validateVerification(JSON.parse(row.payload)),
+  const review = validateVerification(JSON.parse(row.payload), municipio),
     rows = await publicationRows(owner),
-    current = currentFacility(review.shelterId, rows);
+    current = currentFacility(review.shelterId, rows, municipio);
   return {
     review,
     before: current.feature,
-    after: applyReview(current.feature, review),
+    after: applyReview(current.feature, review, municipio),
     expectedRevision: current.revision,
     alreadyPublished: rows.some((r) => r.review_id === reviewId),
     history: rows.filter((r) => r.shelter_id === review.shelterId),
   };
 }
 export async function GET(request: Request) {
-  const owner = request.headers.get('oai-authenticated-user-id');
+  let owner: string | null;
+  try {
+    owner = scopedOwner(request);
+    requestMunicipio(request);
+  } catch {
+    return Response.json({ error: 'Unknown municipality' }, { status: 400 });
+  }
   if (!owner) return response({ error: 'Sign in required' }, 401);
   try {
     const reviewId = new URL(request.url).searchParams.get('reviewId');
     return response(
       reviewId
-        ? await preview(owner, reviewId)
+        ? await preview(owner, reviewId, requestMunicipio(request))
         : { publications: await publicationRows(owner) },
     );
   } catch (e) {
@@ -47,7 +55,13 @@ export async function GET(request: Request) {
   }
 }
 export async function POST(request: Request) {
-  const owner = request.headers.get('oai-authenticated-user-id');
+  let owner: string | null;
+  try {
+    owner = scopedOwner(request);
+    requestMunicipio(request);
+  } catch {
+    return Response.json({ error: 'Unknown municipality' }, { status: 400 });
+  }
   if (!owner) return response({ error: 'Sign in required' }, 401);
   if (request.headers.get('origin') !== new URL(request.url).origin)
     return response({ error: 'Invalid origin' }, 403);
@@ -70,7 +84,7 @@ export async function POST(request: Request) {
         { error: 'Explicit approval and a current preview are required' },
         400,
       );
-    const p = await preview(owner, body.reviewId);
+    const p = await preview(owner, body.reviewId, requestMunicipio(request));
     if (p.alreadyPublished)
       return response({ error: 'This review has already been published' }, 409);
     if (
