@@ -1,4 +1,5 @@
 'use client';
+import { CinematicTour, type TourCamera } from './cinematic-tour';
 
 import { MunicipalityContext, useMunicipality } from './municipality-context';
 import type { Municipio } from '@/lib/municipalities';
@@ -231,6 +232,27 @@ function MunicipalAtlas() {
     pitch: 52,
     bearing: -18,
   };
+  const [presenting, setPresenting] = useState(false);
+  const tourCamera = useCallback((camera: TourCamera) => {
+    setView('high');
+    setIs3d(true);
+    setTerrain(true);
+    setBuildings(true);
+    setRoads(true);
+    setFacilitiesVisible(true);
+    setSelection(null);
+    map.current?.flyTo({
+      ...camera,
+      padding: { top: 0, bottom: 0, left: 0, right: 0 },
+      duration: window.matchMedia('(prefers-reduced-motion: reduce)').matches
+        ? 0
+        : 4500,
+      essential: false,
+    });
+  }, []);
+  const stopTour = useCallback(() => {
+    map.current?.stop();
+  }, []);
   const host = useRef<HTMLDivElement>(null),
     map = useRef<GLMap | null>(null),
     footprints = useRef<FeatureCollection<Polygon> | null>(null);
@@ -857,7 +879,16 @@ function MunicipalAtlas() {
     URL.revokeObjectURL(url);
   };
   return (
-    <main className="atlas">
+    <main className={'atlas' + (presenting ? ' presenting' : '')}>
+      <CinematicTour
+        facilities={facilities}
+        lang={lang}
+        ready={ready && !error}
+        active={presenting}
+        onActive={setPresenting}
+        onCamera={tourCamera}
+        onStop={stopTour}
+      />
       <div
         ref={host}
         className="map"
