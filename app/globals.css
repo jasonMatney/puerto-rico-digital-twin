@@ -97,9 +97,10 @@ a:focus-visible {
   min-height: 680px;
   overflow: hidden;
 }
-.map {
+.atlas > .map {
   position: absolute;
   inset: 0;
+  height: 100dvh;
   background: #193e50;
 }
 .topbar {
@@ -327,7 +328,7 @@ h2 {
   font-size: 12px;
   margin-bottom: 0;
 }
-.collapse {
+.panel-close {
   position: absolute;
   right: 13px;
   top: 13px;
@@ -632,7 +633,7 @@ h3 {
     padding-top: 100dvh;
     background: #081c28;
   }
-  .map {
+  .atlas > .map {
     height: 100dvh;
     position: absolute;
   }

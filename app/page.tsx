@@ -704,7 +704,7 @@ export default function Home() {
       {controls && (
         <section className="control-panel" aria-label={c.controls}>
           <button
-            className="collapse"
+            className="panel-close"
             onClick={() => setControls(false)}
             aria-label={c.collapse}
           >
@@ -856,7 +856,7 @@ export default function Home() {
       {selection && (
         <section className="detail-panel" aria-label={c.detail}>
           <button
-            className="collapse"
+            className="panel-close"
             onClick={() => {
               setSelection(null);
               (
