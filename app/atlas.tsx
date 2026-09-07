@@ -256,6 +256,20 @@ function MunicipalAtlas() {
   const stopTour = useCallback(() => {
     map.current?.stop();
   }, []);
+  const header = useRef<HTMLElement>(null);
+  useEffect(() => {
+    const element = header.current;
+    if (!element) return;
+    const resize = () =>
+      element.parentElement?.style.setProperty(
+        '--atlas-header-height',
+        element.getBoundingClientRect().height + 'px',
+      );
+    const observer = new ResizeObserver(resize);
+    observer.observe(element);
+    resize();
+    return () => observer.disconnect();
+  }, []);
   const host = useRef<HTMLDivElement>(null),
     map = useRef<GLMap | null>(null),
     footprints = useRef<FeatureCollection<Polygon> | null>(null);
@@ -897,49 +911,7 @@ function MunicipalAtlas() {
       {scenario && (
         <ScenarioStudio mapRef={map} lang={lang} onClose={closeScenario} />
       )}
-      {!scenario && !presenting && (
-        <Button
-          className="scenario-launch"
-          disabled={!ready || error}
-          onClick={() => {
-            setIs3d(true);
-            setBuildings(true);
-            setTerrain(true);
-            setSelection(null);
-            const m = map.current;
-            if (m) {
-              m.setTerrain({ source: 'dem', exaggeration: 1 });
-              m.setLayoutProperty('pilot-buildings', 'visibility', 'visible');
-              m.setPaintProperty('pilot-buildings', 'fill-extrusion-height', [
-                'coalesce',
-                ['get', 'render_height'],
-                5,
-              ]);
-              const f =
-                facilities.find((f) => f.properties.exposureHigh) ||
-                facilities[0];
-              m.flyTo({
-                center:
-                  (f?.geometry.coordinates as [number, number]) ||
-                  municipality.center,
-                zoom: 15.4,
-                pitch: 58,
-                bearing: -25,
-                padding: { top: 0, left: 0, right: 0, bottom: 0 },
-                duration: window.matchMedia('(prefers-reduced-motion: reduce)')
-                  .matches
-                  ? 0
-                  : 1800,
-              });
-            }
-            setScenario(true);
-          }}
-        >
-          <Waves size={16} />
-          {lang === 'es' ? 'Explorar escenarios' : 'Scenario studio'}
-        </Button>
-      )}
-      {!scenario && (
+      {presenting && (
         <CinematicTour
           facilities={facilities}
           lang={lang}
@@ -959,7 +931,7 @@ function MunicipalAtlas() {
             : 'Mapa interactivo de ' + municipality.name
         }
       />
-      <header className="topbar">
+      <header ref={header} className="topbar">
         <div className="brand">
           <Compass size={32} />
           <div>
@@ -971,6 +943,65 @@ function MunicipalAtlas() {
           </div>
         </div>
         <div className="header-actions">
+          <div className="experience-actions">
+            {!scenario && (
+              <Button
+                className="tour-launch"
+                disabled={!ready || error}
+                onClick={() => setPresenting(true)}
+              >
+                <Compass size={16} />
+                {lang === 'es' ? 'Recorrido cinematográfico' : 'Cinematic tour'}
+              </Button>
+            )}
+            {!scenario && !presenting && (
+              <Button
+                className="scenario-launch"
+                disabled={!ready || error}
+                onClick={() => {
+                  setIs3d(true);
+                  setBuildings(true);
+                  setTerrain(true);
+                  setSelection(null);
+                  const m = map.current;
+                  if (m) {
+                    m.setTerrain({ source: 'dem', exaggeration: 1 });
+                    m.setLayoutProperty(
+                      'pilot-buildings',
+                      'visibility',
+                      'visible',
+                    );
+                    m.setPaintProperty(
+                      'pilot-buildings',
+                      'fill-extrusion-height',
+                      ['coalesce', ['get', 'render_height'], 5],
+                    );
+                    const f =
+                      facilities.find((f) => f.properties.exposureHigh) ||
+                      facilities[0];
+                    m.flyTo({
+                      center:
+                        (f?.geometry.coordinates as [number, number]) ||
+                        municipality.center,
+                      zoom: 15.4,
+                      pitch: 58,
+                      bearing: -25,
+                      padding: { top: 0, left: 0, right: 0, bottom: 0 },
+                      duration: window.matchMedia(
+                        '(prefers-reduced-motion: reduce)',
+                      ).matches
+                        ? 0
+                        : 1800,
+                    });
+                  }
+                  setScenario(true);
+                }}
+              >
+                <Waves size={16} />
+                {lang === 'es' ? 'Explorar escenarios' : 'Scenario studio'}
+              </Button>
+            )}
+          </div>
           <a className="municipality-back" href="/municipios">
             {lang === 'es' ? 'Cambiar municipio' : 'Change municipality'}
           </a>

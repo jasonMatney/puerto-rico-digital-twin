@@ -40,6 +40,12 @@ export function CinematicTour({
   const [index, setIndex] = useState(0),
     [playing, setPlaying] = useState(false),
     [full, setFull] = useState(false);
+  useEffect(() => {
+    if (active)
+      setPlaying(
+        !window.matchMedia('(prefers-reduced-motion: reduce)').matches,
+      );
+  }, [active]);
   const scenes = useMemo(() => {
     const shelter = facilities.find((f) => f.properties.kind === 'shelter');
     const exposed = facilities.find((f) => f.properties.exposureHigh);
@@ -149,23 +155,7 @@ export function CinematicTour({
     setPlaying(false);
     setIndex(i);
   };
-  if (!active)
-    return (
-      <Button
-        className="tour-launch"
-        disabled={!ready}
-        onClick={() => {
-          setIndex(0);
-          onActive(true);
-          setPlaying(
-            !window.matchMedia('(prefers-reduced-motion: reduce)').matches,
-          );
-        }}
-      >
-        <Play size={16} />
-        {es ? 'Recorrido cinematográfico' : 'Cinematic tour'}
-      </Button>
-    );
+  if (!active) return null;
   return (
     <section
       className="tour-overlay"

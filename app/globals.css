@@ -1689,3 +1689,81 @@ h3 {
   border: 1px solid #ecffed;
   cursor: ew-resize;
 }
+
+/* Launch controls belong to the header flow, never above a side panel. */
+.atlas > .topbar {
+  flex-wrap: wrap;
+  gap: 12px;
+  z-index: 7;
+  align-items: center;
+}
+.atlas .header-actions {
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  flex: 1;
+  min-width: 0;
+}
+.experience-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+.atlas .header-actions .tour-launch,
+.atlas .header-actions .scenario-launch {
+  position: static;
+  inset: auto;
+  box-shadow: none;
+  white-space: normal;
+  height: auto;
+  min-height: 40px;
+  max-width: 100%;
+}
+.atlas > .control-panel,
+.atlas > .show-controls {
+  top: calc(var(--atlas-header-height, 110px) + 16px);
+}
+.atlas > .control-panel {
+  max-height: calc(100dvh - var(--atlas-header-height, 110px) - 90px);
+}
+.atlas > .scenario-labels {
+  top: calc(var(--atlas-header-height, 100px) + 8px);
+}
+@media (min-width: 701px) {
+  .atlas > .summary-panel,
+  .atlas > .detail-panel,
+  .atlas > .scenario-panel {
+    top: calc(var(--atlas-header-height, 110px) + 16px);
+  }
+  .atlas > .scenario-panel {
+    max-height: calc(100dvh - var(--atlas-header-height, 110px) - 90px);
+  }
+}
+@media (max-width: 1100px) {
+  .atlas .header-actions .pilot {
+    display: none;
+  }
+}
+@media (max-width: 700px) {
+  .atlas .header-actions {
+    flex-basis: 100%;
+    justify-content: flex-start;
+  }
+  .experience-actions {
+    flex-basis: 100%;
+  }
+  .atlas > .topbar {
+    background: #071c2bf2;
+  }
+  .atlas .header-actions .tour-launch,
+  .atlas .header-actions .scenario-launch {
+    font-size: 0.875rem;
+    flex: 1;
+  }
+  .atlas > .scenario-panel {
+    max-height: min(
+      44dvh,
+      calc(100dvh - var(--atlas-header-height, 110px) - 110px)
+    );
+  }
+}
