@@ -1,3 +1,4 @@
+import { facilityRegistry } from './facility-registry.ts';
 import { municipalities, type Municipio } from './municipalities.ts';
 import { validateVerification, type Verification } from './verification.ts';
 export const responseHeaders = [
@@ -58,7 +59,7 @@ export function parseCsv(input: string): string[][] {
   if (quoted) throw new Error('Unclosed quoted field.');
   row.push(cell);
   if (row.some((v) => v !== '')) rows.push(row);
-  if (rows.length > 13) throw new Error('Use at most 12 shelter rows.');
+  if (rows.length > 501) throw new Error('Use at most 500 facility rows.');
   return rows;
 }
 export type ImportPreview = {
@@ -92,9 +93,9 @@ export function previewImport(
         throw new Error('Column count does not match header.');
       const get = (h: string) => cells[header.indexOf(h)].trim(),
         id = get('id_refugio');
-      if (!municipalities[municipio].shelterIds.includes(id))
-        throw new Error('Unknown shelter ID: ' + id);
-      if (seen.has(id)) throw new Error('Duplicate shelter ID: ' + id);
+      if (!Object.hasOwn(facilityRegistry[municipio], id))
+        throw new Error('Unknown facility ID: ' + id);
+      if (seen.has(id)) throw new Error('Duplicate facility ID: ' + id);
       seen.add(id);
       if (responseHeaders.every((h) => !get(h))) {
         result.skipped++;

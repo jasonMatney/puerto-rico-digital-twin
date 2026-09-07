@@ -184,7 +184,10 @@ export function effectiveInventory(
     const old = facilities.features[i],
       current = currentFacility(old.properties.id, rows, municipio).feature;
     facilities.features[i] = current;
-    if (JSON.stringify(old.geometry) !== JSON.stringify(current.geometry)) {
+    if (
+      current.properties.kind === 'shelter' &&
+      JSON.stringify(old.geometry) !== JSON.stringify(current.geometry)
+    ) {
       screening.features = screening.features.filter(
         (f) => f.properties?.shelterId !== old.properties.id,
       );

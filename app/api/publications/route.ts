@@ -92,7 +92,9 @@ export async function POST(request: Request) {
       JSON.stringify(p.before) !== body.expectedBefore
     )
       return response(
-        { error: 'This shelter changed. Reopen the preview before approving.' },
+        {
+          error: 'This facility changed. Reopen the preview before approving.',
+        },
         409,
       );
     const id = crypto.randomUUID(),
@@ -117,7 +119,7 @@ export async function POST(request: Request) {
       .run();
     if (!result.meta.changes)
       return response(
-        { error: 'This shelter changed. Reopen the preview.' },
+        { error: 'This facility changed. Reopen the preview.' },
         409,
       );
     return response({ id, createdAt }, 201);

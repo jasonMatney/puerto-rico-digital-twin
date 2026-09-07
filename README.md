@@ -199,3 +199,21 @@ Run `node scripts/build-readiness.mjs` after changing either source inventory.
 The picker and facility panel share its category counts, evidence basis and
 gaps. This is source coverage, not an emergency readiness score; per-account
 reviews do not alter this original-inventory summary.
+
+### Reviews for every mapped facility
+
+Review forms, queues, CSV exports/imports and explicit approvals now accept all
+37 mapped facilities across both municipalities. `lib/facility-registry.ts`
+contains the exact baseline IDs and kinds, checked against the source inventories
+by `scripts/validate-all-facilities.mjs`. Update this registry when adding assets.
+The legacy `shelterId`, `shelter_id` and CSV `id_refugio` names remain compatible
+with saved reviews and previously issued response sheets; they now carry facility
+IDs of any supported kind. No database migration or existing-record rewrite occurs.
+
+Coordinate approvals recalculate point flood exposure for any facility; only
+shelter moves rebuild 500 m road screening. People-capacity gaps apply to shelter
+and health records, not police, fire or sirens. Status open/closed represents
+source-reported open/operational or closed/not operational; it is never live telemetry.
+The dated shelter briefing and sample remain shelter-specific references; current
+CSV exports include every mapped facility. Existing evidence requirements,
+per-account municipal scope, explicit approval and immutable history still apply.

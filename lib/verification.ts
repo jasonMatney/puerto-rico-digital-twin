@@ -1,4 +1,5 @@
-import { municipalities, type Municipio } from './municipalities.ts';
+import { facilityRegistry } from './facility-registry.ts';
+import { type Municipio } from './municipalities.ts';
 export type Verification = {
   shelterId: string;
   reviewer: string;
@@ -36,8 +37,8 @@ export function validateVerification(
     return v[key] as T;
   };
   const shelterId = text('shelterId', 30, true);
-  if (!municipalities[municipio].shelterIds.includes(shelterId))
-    throw new Error('Unknown shelter');
+  if (!Object.hasOwn(facilityRegistry[municipio], shelterId))
+    throw new Error('Unknown facility');
   const asOf = text('asOf', 10, true);
   if (
     !/^\d{4}-\d{2}-\d{2}$/.test(asOf) ||

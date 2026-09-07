@@ -92,7 +92,6 @@ export function ReviewQueue({
     setTimeout(() => URL.revokeObjectURL(url), 1000);
   }
   const rows = facilities
-    .filter((f) => f.properties.kind === 'shelter')
     .map((f) => ({ f, q: queueState(f.properties.id, reviews, published) }))
     .sort(
       (a, b) =>
@@ -105,7 +104,7 @@ export function ReviewQueue({
         a.f.properties.name.localeCompare(b.f.properties.name, 'es'),
     );
   const options = {
-    all: es ? 'Todos los refugios' : 'All shelters',
+    all: es ? 'Todas las instalaciones' : 'All facilities',
     unreviewed: es ? 'Sin revisión' : 'No review yet',
     discrepancy: es ? 'Discrepancias' : 'Discrepancies',
     unpublished: es ? 'Revisiones sin publicar' : 'Unpublished reviews',
@@ -161,12 +160,12 @@ export function ReviewQueue({
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent className="shelter-comparison review-queue">
           <DialogTitle>
-            {es ? 'Cola de revisión de refugios' : 'Shelter review queue'}
+            {es ? 'Cola de revisión de instalaciones' : 'Facility review queue'}
           </DialogTitle>
           <DialogDescription>
             {es
-              ? 'Seguimiento de evidencia para los refugios de este municipio. Abrir un registro no aprueba ni publica cambios.'
-              : 'Evidence follow-up for the shelters in this municipality. Opening a record does not approve or publish changes.'}
+              ? 'Seguimiento de evidencia para las instalaciones de este municipio. Abrir un registro no aprueba ni publica cambios.'
+              : 'Evidence follow-up for the facilities in this municipality. Opening a record does not approve or publish changes.'}
           </DialogDescription>
           <div className="packet-downloads">
             <a
@@ -244,7 +243,7 @@ export function ReviewQueue({
                 <Table>
                   <TableHeader>
                     <TableRow>
-                      <TableHead>{es ? 'Refugio' : 'Shelter'}</TableHead>
+                      <TableHead>{es ? 'Instalación' : 'Facility'}</TableHead>
                       <TableHead>
                         {es
                           ? 'Última revisión guardada'

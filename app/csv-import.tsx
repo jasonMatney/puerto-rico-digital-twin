@@ -150,7 +150,7 @@ export function CsvImport({
                 <TableHeader>
                   <TableRow>
                     <TableHead>
-                      {es ? 'Refugio actual' : 'Current shelter'}
+                      {es ? 'Instalación actual' : 'Current facility'}
                     </TableHead>
                     <TableHead>{es ? 'Propuesta' : 'Proposal'}</TableHead>
                     <TableHead>

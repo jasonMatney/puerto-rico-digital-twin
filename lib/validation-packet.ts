@@ -39,7 +39,6 @@ export function packetRows(
   return [
     header,
     ...facilities
-      .filter((f) => f.properties.kind === 'shelter')
       .sort((a, b) => a.properties.name.localeCompare(b.properties.name, 'es'))
       .map((f) => {
         const p = f.properties,
@@ -74,7 +73,10 @@ export function packetRows(
             !r || r.operatingStatus === 'unknown'
               ? 'Estado operativo fechado'
               : '',
-            !r || r.capacity === null ? 'Capacidad documentada' : '',
+            (p.kind === 'shelter' || p.kind === 'health') &&
+            (!r || r.capacity === null)
+              ? 'Capacidad documentada'
+              : '',
             r?.questions ? 'Resolver preguntas guardadas' : '',
           ]
             .filter(Boolean)

@@ -47,7 +47,9 @@ export function VerificationWorkflow({
   const municipality = useMunicipality();
   const es = lang === 'es',
     [open, setOpen] = useState(false),
-    [form, setForm] = useState<Verification>(blank('shelter-3')),
+    [form, setForm] = useState<Verification>(
+      blank(facilities[0]?.properties.id || ''),
+    ),
     [reviews, setReviews] = useState<SavedVerification[]>([]),
     [loading, setLoading] = useState(false),
     [loadError, setLoadError] = useState(''),
@@ -55,7 +57,7 @@ export function VerificationWorkflow({
     [saving, setSaving] = useState(false),
     [saved, setSaved] = useState(false),
     [reload, setReload] = useState(0);
-  const shelters = facilities.filter((f) => f.properties.kind === 'shelter'),
+  const shelters = facilities,
     selected = shelters.find((f) => f.properties.id === form.shelterId);
   useEffect(() => {
     if (!open) return;
@@ -93,8 +95,12 @@ export function VerificationWorkflow({
   };
   const statusOptions = {
     unknown: es ? 'Desconocido' : 'Unknown',
-    open: es ? 'Abierto según fuente' : 'Reported open',
-    closed: es ? 'Cerrado según fuente' : 'Reported closed',
+    open: es
+      ? 'Abierto / operativo según fuente'
+      : 'Reported open / operational',
+    closed: es
+      ? 'Cerrado / no operativo según fuente'
+      : 'Reported closed / not operational',
     standby: es ? 'En espera según fuente' : 'Reported standby',
   };
   const choice = (
@@ -159,26 +165,34 @@ export function VerificationWorkflow({
           setOpen(true);
         }}
       />
-      <Button variant="outline" onClick={() => setOpen(true)}>
+      <Button
+        variant="outline"
+        onClick={() => {
+          if (!selected) setForm(blank(facilities[0]?.properties.id || ''));
+          setOpen(true);
+        }}
+      >
         {es ? 'Verificar registros' : 'Verify records'}
       </Button>
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent className="verification-dialog">
           <DialogTitle>
-            {es ? 'Revisión de registros de refugios' : 'Shelter record review'}
+            {es
+              ? 'Revisión de registros de instalaciones'
+              : 'Facility record review'}
           </DialogTitle>
           <DialogDescription>
             {es
-              ? 'Registre evidencia y correcciones propuestas. Guardar una revisión no cambia el inventario publicado ni confirma oficialmente un refugio.'
-              : 'Record evidence and proposed corrections. Saving a review does not change the published inventory or officially verify a shelter.'}
+              ? 'Registre evidencia y correcciones propuestas. Guardar una revisión no cambia el inventario publicado ni confirma oficialmente una instalación.'
+              : 'Record evidence and proposed corrections. Saving a review does not change the published inventory or officially verify a facility.'}
           </DialogDescription>
           <p className="small">
             {es
-              ? 'Prioridades: nombre de Pipo Negrón y coordenadas históricas de Pedro Albizu Campos. Los registros se guardan para su cuenta; cambiar de refugio abre un formulario vacío y recargar descarta formularios sin guardar.'
-              : 'Priorities: Pipo Negrón’s name and Pedro Albizu Campos’s historical coordinates. Records are saved for your account; switching shelters starts a blank form, and unsaved forms are lost on reload.'}
+              ? 'Confirme nombres y coordenadas con evidencia fechada. Los registros se guardan para su cuenta; cambiar de instalación abre un formulario vacío y recargar descarta formularios sin guardar.'
+              : 'Confirm names and coordinates against dated evidence. Records are saved for your account; switching facilities starts a blank form, and unsaved forms are lost on reload.'}
           </p>
           <label>
-            {es ? 'Refugio' : 'Shelter'}
+            {es ? 'Instalación' : 'Facility'}
             <Select
               disabled={saving}
               value={form.shelterId}
@@ -194,7 +208,7 @@ export function VerificationWorkflow({
               }}
             >
               <SelectTrigger
-                aria-label={es ? 'Refugio a revisar' : 'Shelter to review'}
+                aria-label={es ? 'Instalación a revisar' : 'Facility to review'}
               >
                 <SelectValue />
               </SelectTrigger>
@@ -340,8 +354,8 @@ export function VerificationWorkflow({
                 </label>
                 <label>
                   {es
-                    ? 'Capacidad en personas (vacío = desconocida)'
-                    : 'Capacity in people (blank = unknown)'}
+                    ? 'Capacidad en personas, si aplica (vacío = desconocida / no aplica)'
+                    : 'Capacity in people, if applicable (blank = unknown / not applicable)'}
                   <Input
                     type="number"
                     step="1"
@@ -417,8 +431,8 @@ export function VerificationWorkflow({
           <section>
             <h3>
               {es
-                ? 'Historial de este refugio'
-                : 'This shelter’s review history'}
+                ? 'Historial de esta instalación'
+                : 'This facility’s review history'}
             </h3>
             {loading ? (
               <p role="status">{es ? 'Cargando…' : 'Loading…'}</p>

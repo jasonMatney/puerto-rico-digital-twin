@@ -1,3 +1,4 @@
+import { facilityRegistry } from './facility-registry.ts';
 import type { SavedVerification } from './verification';
 export type QueueState = {
   latest: SavedVerification | null;
@@ -42,7 +43,14 @@ export function queueState(
   if (!latest || latest.nameCheck !== 'confirmed') gaps.push('name');
   if (!latest || latest.locationCheck !== 'confirmed') gaps.push('location');
   if (!latest || latest.operatingStatus === 'unknown') gaps.push('status');
-  if (!latest || latest.capacity === null) gaps.push('capacity');
+  const kind = Object.values(facilityRegistry)
+    .map((r) => r[id])
+    .find(Boolean);
+  if (
+    (kind === 'shelter' || kind === 'health') &&
+    (!latest || latest.capacity === null)
+  )
+    gaps.push('capacity');
   if (latest?.questions.trim()) gaps.push('questions');
   const action = discrepancy
     ? 'resolve'
