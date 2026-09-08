@@ -10,7 +10,10 @@ export async function GET(request: Request) {
     return Response.json({ error: 'Unknown municipality' }, { status: 400 });
   }
   if (!owner)
-    return Response.json({ error: 'Sign in required' }, { status: 401 });
+    return Response.json(
+      { error: 'Browser session unavailable. Reload to retry.' },
+      { status: 401 },
+    );
   try {
     return Response.json(
       effectiveInventory(

@@ -39,7 +39,11 @@ export async function GET(request: Request) {
   } catch {
     return Response.json({ error: 'Unknown municipality' }, { status: 400 });
   }
-  if (!owner) return response({ error: 'Sign in required' }, 401);
+  if (!owner)
+    return response(
+      { error: 'Browser session unavailable. Reload to retry.' },
+      401,
+    );
   try {
     const reviewId = new URL(request.url).searchParams.get('reviewId');
     return response(
@@ -62,7 +66,11 @@ export async function POST(request: Request) {
   } catch {
     return Response.json({ error: 'Unknown municipality' }, { status: 400 });
   }
-  if (!owner) return response({ error: 'Sign in required' }, 401);
+  if (!owner)
+    return response(
+      { error: 'Browser session unavailable. Reload to retry.' },
+      401,
+    );
   if (request.headers.get('origin') !== new URL(request.url).origin)
     return response({ error: 'Invalid origin' }, 403);
   if (!request.headers.get('content-type')?.startsWith('application/json'))

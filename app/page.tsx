@@ -1,9 +1,6 @@
-import { headers } from 'next/headers';
 import { Compass, ArrowUpRight } from 'lucide-react';
 export const dynamic = 'force-dynamic';
 export default async function Welcome() {
-  const h = await headers();
-  const signedIn = !!h.get('oai-authenticated-user-id');
   return (
     <main className="welcome">
       <header>
@@ -24,22 +21,12 @@ export default async function Welcome() {
           Review shelter information, document its sources and approve
           corrections in a traceable workspace.
         </p>
-        <a
-          className="welcome-cta"
-          href={
-            signedIn
-              ? '/municipios'
-              : '/signin-with-chatgpt?return_to=%2Fmunicipios'
-          }
-          target="_top"
-        >
-          {signedIn ? 'Choose a municipality' : 'Sign in with ChatGPT'}{' '}
-          <ArrowUpRight size={22} />
+        <a className="welcome-cta" href="/municipios">
+          Choose a municipality <ArrowUpRight size={22} />
         </a>
         <p className="welcome-note">
-          {signedIn
-            ? 'Signed in · Your reviews stay in your account.'
-            : 'Sign in to access your municipal workspace and save reviews.'}
+          Open to everyone · No account required. Demo reviews stay in this
+          browser workspace.
         </p>
       </section>
       <section className="welcome-details">

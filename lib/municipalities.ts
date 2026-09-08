@@ -30,10 +30,20 @@ export function requestMunicipio(request: Request): Municipio {
   if (!isMunicipio(value)) throw new Error('Unknown municipality');
   return value;
 }
-// Preserve existing Toa Baja owner keys. Other workspaces use an unambiguous tuple.
+// Anonymous browser workspaces never reuse private account-owned records.
 export function scopedOwner(request: Request) {
-  const owner = request.headers.get('oai-authenticated-user-id');
-  if (!owner) return null;
-  const municipio = requestMunicipio(request);
-  return municipio === 'toa-baja' ? owner : JSON.stringify([owner, municipio]);
+  const cookie = request.headers.get('cookie') || '';
+  const token = cookie
+    .split(';')
+    .map((v) => v.trim())
+    .find((v) => v.startsWith('prdt-demo-session='))
+    ?.slice('prdt-demo-session='.length);
+  if (
+    !token ||
+    !/^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(
+      token,
+    )
+  )
+    return null;
+  return JSON.stringify(['anonymous-demo', token, requestMunicipio(request)]);
 }

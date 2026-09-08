@@ -188,8 +188,8 @@ export function VerificationWorkflow({
           </DialogDescription>
           <p className="small">
             {es
-              ? 'Confirme nombres y coordenadas con evidencia fechada. Los registros se guardan para su cuenta; cambiar de instalación abre un formulario vacío y recargar descarta formularios sin guardar.'
-              : 'Confirm names and coordinates against dated evidence. Records are saved for your account; switching facilities starts a blank form, and unsaved forms are lost on reload.'}
+              ? 'Confirme nombres y coordenadas con evidencia fechada. Los registros se guardan para este navegador; cambiar de instalación abre un formulario vacío y recargar descarta formularios sin guardar.'
+              : 'Confirm names and coordinates against dated evidence. Records are saved for this browser; switching facilities starts a blank form, and unsaved forms are lost on reload.'}
           </p>
           <label>
             {es ? 'Instalación' : 'Facility'}

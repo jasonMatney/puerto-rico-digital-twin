@@ -1,23 +1,16 @@
 import { DataReadiness } from '@/app/data-readiness';
 import type { Municipio } from '@/lib/municipalities';
-import { headers } from 'next/headers';
-import { redirect } from 'next/navigation';
 import { Compass, ArrowUpRight } from 'lucide-react';
 import { municipalities } from '@/lib/municipalities';
 export const dynamic = 'force-dynamic';
 export default async function Municipalities() {
-  const h = await headers();
-  if (!h.get('oai-authenticated-user-id'))
-    redirect('/signin-with-chatgpt?return_to=%2Fmunicipios');
   return (
     <main className="welcome">
       <header>
         <a className="welcome-brand" href="/">
           <Compass /> PUERTO RICO / DIGITAL TWIN
         </a>
-        <a href="/signout-with-chatgpt?return_to=%2F" target="_top">
-          Sign out
-        </a>
+        <span>Open prototype · No sign-in required</span>
       </header>
       <section className="welcome-hero">
         <p className="eyebrow">MUNICIPAL WORKSPACES</p>
@@ -28,7 +21,7 @@ export default async function Municipalities() {
         </h1>
         <p>
           Each workspace has its own geographic data, shelter inventory and
-          review history. Your saved reviews belong to your account.
+          review history. Demo reviews are saved separately for this browser.
         </p>
       </section>
       <div className="municipality-cards">

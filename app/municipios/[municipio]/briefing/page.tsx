@@ -1,5 +1,4 @@
-import { headers } from 'next/headers';
-import { redirect, notFound } from 'next/navigation';
+import { notFound } from 'next/navigation';
 import { isMunicipio, municipalities } from '@/lib/municipalities';
 import { effectiveInventory } from '@/lib/inventory-server';
 export const dynamic = 'force-dynamic';
@@ -10,18 +9,13 @@ export default async function Briefing({
 }) {
   const { municipio } = await params;
   if (!isMunicipio(municipio)) notFound();
-  return <ProtectedBriefing municipio={municipio} />;
+  return <MunicipalBriefing municipio={municipio} />;
 }
-async function ProtectedBriefing({
+async function MunicipalBriefing({
   municipio,
 }: {
   municipio: 'toa-baja' | 'catano';
 }) {
-  if (!(await headers()).get('oai-authenticated-user-id'))
-    redirect(
-      '/signin-with-chatgpt?return_to=' +
-        encodeURIComponent('/municipios/' + municipio + '/briefing'),
-    );
   const m = municipalities[municipio],
     facilities = effectiveInventory([], municipio).facilities.features.filter(
       (f) => f.properties.kind === 'shelter',

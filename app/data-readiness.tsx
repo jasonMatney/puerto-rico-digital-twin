@@ -68,8 +68,8 @@ export function DataReadiness({
       {!compact && (
         <p>
           {es
-            ? 'Este resumen describe el inventario original. Las revisiones de su cuenta se muestran en cada registro.'
-            : 'This summary describes the original inventory. Account reviews appear on individual records.'}
+            ? 'Este resumen describe el inventario original. Las revisiones de este navegador se muestran en cada registro.'
+            : 'This summary describes the original inventory. Browser workspace reviews appear on individual records.'}
         </p>
       )}
     </section>

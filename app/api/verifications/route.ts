@@ -16,7 +16,7 @@ export async function GET(request: Request) {
     return Response.json({ error: 'Unknown municipality' }, { status: 400 });
   }
   if (!owner)
-    return response({ error: 'Sign in to use verification records.' }, 401);
+    return response({ error: 'Reload to start your browser workspace.' }, 401);
   try {
     const rows = await database()
       .prepare(
@@ -47,7 +47,7 @@ export async function POST(request: Request) {
     return Response.json({ error: 'Unknown municipality' }, { status: 400 });
   }
   if (!owner)
-    return response({ error: 'Sign in to save a verification record.' }, 401);
+    return response({ error: 'Reload to start your browser workspace.' }, 401);
   if (request.headers.get('origin') !== new URL(request.url).origin)
     return response({ error: 'Invalid request origin.' }, 403);
   if (!request.headers.get('content-type')?.startsWith('application/json'))
